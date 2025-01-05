@@ -1,0 +1,248 @@
+// geometry_pass.comp - 几何阶段计算着色器 
+#version 430
+
+
+// 输出G-Buffer
+layout (rgba32f, binding = 0) uniform image2D gPosition;  // 存储位置
+layout (rgba32f, binding = 1) uniform image2D gNormal;   // 存储法线
+// 输入体数据和配置
+layout (binding = 2) uniform sampler3D TexVolume;
+layout (binding = 3) uniform sampler3D TexBlockMin;
+layout (binding = 4) uniform sampler3D TexBlockMax;
+
+// 统一变量 - 体数据属性
+uniform vec3 VolumeGridSize;      // 体数据尺寸
+uniform vec3 numBlocks;           // 分块信息
+uniform vec3 VolumeGridResolution;// 体数据分辨率
+
+// 相机参数
+uniform vec3 CameraEye;
+uniform mat4 u_CameraLookAt;
+uniform float u_TanCameraFovY;
+uniform float u_CameraAspectRatio;
+
+// 等值面参数
+uniform float Isovalue;
+uniform float StepSizeSmall;
+uniform float StepSizeLarge;
+uniform float StepSizeRange;
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// From structured/_common_shaders/ray_bbox_intersection.comp
+struct Ray { vec3 Origin; vec3 Dir; };
+bool RayAABBIntersection (vec3 vert_eye, vec3 vert_dir, vec3 vol_scaled_dim,
+                          out Ray r, out float rtnear, out float rtfar);
+
+// 工作组大小
+layout (local_size_x = 8, local_size_y = 8, local_size_z = 1) in;
+
+// 辅助函数: 计算射线和体数据包围盒的交点
+bool RayBoxIntersection(vec3 rayOrigin, vec3 rayDir, out float tNear, out float tFar) {
+    // 计算射线与轴对齐包围盒的交点
+    vec3 invDir = 1.0 / rayDir;
+    vec3 tMin = (-VolumeGridSize * 0.5 - rayOrigin) * invDir;
+    vec3 tMax = (VolumeGridSize * 0.5 - rayOrigin) * invDir;
+    
+    vec3 t1 = min(tMin, tMax);
+    vec3 t2 = max(tMin, tMax);
+    
+    tNear = max(max(t1.x, t1.y), t1.z);
+    tFar = min(min(t2.x, t2.y), t2.z);
+    
+    return tNear < tFar && tFar > 0;
+}
+
+// 辅助函数: 计算梯度(用作法线)
+vec3 CalculateGradient(vec3 pos) {
+    const float h = 1.0;  // 步长
+    vec3 gradient;
+    
+    // 计算x方向偏导数
+    float x1 = texture(TexVolume, (pos + vec3(h,0,0)) / VolumeGridSize).r;
+    float x2 = texture(TexVolume, (pos - vec3(h,0,0)) / VolumeGridSize).r;
+    gradient.x = (x1 - x2) / (2.0 * h);
+    
+    // 计算y方向偏导数
+    float y1 = texture(TexVolume, (pos + vec3(0,h,0)) / VolumeGridSize).r;
+    float y2 = texture(TexVolume, (pos - vec3(0,h,0)) / VolumeGridSize).r;
+    gradient.y = (y1 - y2) / (2.0 * h);
+    
+    // 计算z方向偏导数
+    float z1 = texture(TexVolume, (pos + vec3(0,0,h)) / VolumeGridSize).r;
+    float z2 = texture(TexVolume, (pos - vec3(0,0,h)) / VolumeGridSize).r;
+    gradient.z = (z1 - z2) / (2.0 * h);
+    
+    return normalize(gradient);
+}
+
+// Get block index from world position
+ivec3 getBlockIndex(vec3 pos) {
+    vec3 normalizedPos = (pos + (VolumeGridSize * 0.5)) / VolumeGridSize;
+    return ivec3(floor(normalizedPos * numBlocks));
+}
+
+// Get block boundaries in world space
+void getBlockBounds(ivec3 blockIdx, out vec3 blockMin, out vec3 blockMax) {
+    vec3 blockSize = VolumeGridSize / numBlocks;
+    blockMin = -VolumeGridSize * 0.5 + blockSize * vec3(blockIdx);
+    blockMax = blockMin + blockSize;
+}
+float calculateNextBlockIntersection(vec3 rayOrigin, vec3 rayDir, ivec3 currentBlock, out ivec3 nextBlock) {
+    // 首先计算光线方向的倒数，同时处理接近零的情况
+    vec3 rayDirRecip;
+    rayDirRecip.x = abs(rayDir.x) > 1e-6 ? 1.0/rayDir.x : sign(rayDir.x) * 1e6;
+    rayDirRecip.y = abs(rayDir.y) > 1e-6 ? 1.0/rayDir.y : sign(rayDir.y) * 1e6;
+    rayDirRecip.z = abs(rayDir.z) > 1e-6 ? 1.0/rayDir.z : sign(rayDir.z) * 1e6;
+    
+    // 获取当前块的边界
+    vec3 blockMin, blockMax;
+    getBlockBounds(currentBlock, blockMin, blockMax);
+    
+    // 计算与块边界的交点距离
+    vec3 t1 = (blockMin - rayOrigin) * rayDirRecip;
+    vec3 t2 = (blockMax - rayOrigin) * rayDirRecip;
+    
+    // 确保t1包含较小值，t2包含较大值
+    vec3 tMin = min(t1, t2);
+    vec3 tMax = max(t1, t2);
+    
+    float exitT = min(min(tMax.x, tMax.y), tMax.z);
+    
+    // 根据出射面确定下一个块
+    nextBlock = currentBlock;
+    
+    // 使用额外的偏移量确保我们真的进入了下一个块
+    const float offset = 1e-4;
+    if(abs(exitT - tMax.x) < 1e-5) {
+        nextBlock.x += rayDir.x > 0.0 ? 1 : -1;
+        exitT += offset;
+    }
+    if(abs(exitT - tMax.y) < 1e-5) {
+        nextBlock.y += rayDir.y > 0.0 ? 1 : -1;
+        exitT += offset;
+    }
+    if(abs(exitT - tMax.z) < 1e-5) {
+        nextBlock.z += rayDir.z > 0.0 ? 1 : -1;
+        exitT += offset;
+    }
+    
+    return exitT;
+}
+bool isBlockSkippable(float blockMin, float blockMax, float isoValue) {
+    // 添加一个小的容差，避免在边界处错过等值面
+    //const float epsilon = 0.001; // 容差值可以根据需要调整
+    const float epsilon = 0.001;
+    return (isoValue < blockMin - epsilon || isoValue > blockMax + epsilon);
+
+}
+void main ()
+{
+  ivec2 storePos = ivec2(gl_GlobalInvocationID.xy);
+  
+  ivec2 size = imageSize(gPosition);
+  if (storePos.x < size.x && storePos.y < size.y)
+  {
+    // Get screen position [x, y] and consider centering the pixel by + 0.5
+    vec2 fpos = vec2(storePos) + 0.5;
+
+    // Transform fpos from [w, h] to [0, 1] to [-1, 1]
+    vec3 VerPos = (vec3(fpos.x / float(size.x), fpos.y / float(size.y), 0.0) * 2.0) - 1.0;
+
+    // Camera direction
+    vec3 camera_dir = normalize(vec3(VerPos.x * u_TanCameraFovY * u_CameraAspectRatio, VerPos.y * u_TanCameraFovY, -1.0) * mat3(u_CameraLookAt));
+
+    // Find Ray Intersection
+    Ray r; float tnear, tfar;
+    bool inbox = RayAABBIntersection(CameraEye, camera_dir, VolumeGridSize, r, tnear, tfar);
+
+
+    if (inbox)
+    {
+        float t = tnear;
+        vec4 dst = vec4(0.0);
+        vec3 prevTexPos = r.Origin + r.Dir * t + (VolumeGridSize * 0.5);    // If inside volume grid
+        float prevDensity = texture(TexVolume, prevTexPos / VolumeGridSize).r;
+        float CurrentStepSize;
+        float density;
+        while(t < tfar) {
+            ivec3 blockIndex = getBlockIndex(r.Origin + t*r.Dir);
+            vec3 blockCoord = (vec3(blockIndex) + 0.5) / numBlocks;
+            float blockMin = texture(TexBlockMin, blockCoord).r;
+            float blockMax = texture(TexBlockMax, blockCoord).r;
+            
+            if(isBlockSkippable(blockMin, blockMax, Isovalue)) {
+                ivec3 nextBlock;
+                float exitT = calculateNextBlockIntersection(r.Origin + t*r.Dir, r.Dir, blockIndex, nextBlock);
+                
+                // 确保步长合理且有效
+                //float stepSize = max(StepSizeSmall, min(exitT, StepSizeLarge));
+                float stepSize = max(StepSizeSmall,exitT);
+
+                t += stepSize;
+                
+                // 更新采样值
+                vec3 newPos = r.Origin + r.Dir * t + (VolumeGridSize * 0.5);
+                prevDensity = texture(TexVolume, newPos / VolumeGridSize).r;
+                continue;
+            }
+            
+            // 获取当前位置的密度值
+            vec3 currentPos = r.Origin + r.Dir * t + (VolumeGridSize * 0.5);
+            float currentDensity = texture(TexVolume, currentPos / VolumeGridSize).r;
+            
+            // 根据当前位置到等值面的距离动态调整步长
+            float distToIso = abs(currentDensity - Isovalue);
+            float adaptiveStepSize;
+            
+            if(distToIso < StepSizeRange) {
+                // 接近等值面时使用更小的步长
+                adaptiveStepSize = StepSizeSmall;
+            } else {
+                // 根据距离调整步长，但不超过块的大小
+                float blockSize = length(VolumeGridSize / numBlocks);
+                adaptiveStepSize = min(StepSizeLarge, blockSize * 0.5);
+            }
+            
+            // 确保不会超过剩余距离
+            float h = min(adaptiveStepSize, tfar - t);
+            
+            // 保存上一个采样点的信息
+            prevDensity = currentDensity;
+            
+            // 移动到下一个采样点
+            t += h;
+            
+            // 获取新位置的密度值
+            vec3 newPos = r.Origin + r.Dir * t + (VolumeGridSize * 0.5);
+            float density = texture(TexVolume, newPos / VolumeGridSize).r;
+            
+            // 检查是否穿过等值面
+            if((prevDensity <= Isovalue && Isovalue < density) ||
+              (prevDensity >= Isovalue && Isovalue > density)) {
+
+
+
+                // 使用线性插值找到更精确的等值面位置
+                float tt = (Isovalue - prevDensity) / (density - prevDensity);
+                t = t - h * (1.0 - tt);  // 回退到实际的交点位置
+                vec3 intersectPos = r.Origin + r.Dir * t + (VolumeGridSize * 0.5);
+                
+                // 计算法线
+                vec3 normal = CalculateGradient(intersectPos);
+                
+                // 存储结果到G-Buffer
+                imageStore(gPosition, storePos, vec4(intersectPos, 1.0));
+                imageStore(gNormal, storePos, vec4(normal, 1.0));
+                return;
+
+
+            }
+                    prevDensity = density;
+
+        }
+
+    // 没有找到交点
+    imageStore(gPosition, storePos, vec4(0.0));
+    imageStore(gNormal, storePos, vec4(0.0,0.0,0.0,0.0));
+    }
+  }
+}

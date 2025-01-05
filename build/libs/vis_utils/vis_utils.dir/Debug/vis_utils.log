@@ -1,0 +1,27 @@
+﻿  Building Custom Rule E:/cpp_volume_rendering/libs/vis_utils/CMakeLists.txt
+  camera.cpp
+E:\cpp_volume_rendering\libs\math_utils\matrix4.h(58,21): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\math_utils\matrix4.h(59,21): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+  GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+  defines.cpp
+  colorutils.cpp
+E:\cpp_volume_rendering\libs\vis_utils\colorutils.cpp(16,11): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\vis_utils\colorutils.cpp(17,11): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\vis_utils\colorutils.cpp(18,11): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\vis_utils\colorutils.cpp(76,11): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\vis_utils\colorutils.cpp(77,11): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\vis_utils\colorutils.cpp(78,11): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\vis_utils\colorutils.cpp(81,11): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\vis_utils\colorutils.cpp(82,11): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\vis_utils\colorutils.cpp(83,11): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+  renderoutputframe.cpp
+E:\cpp_volume_rendering\libs\math_utils/matrix4.h(58,21): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\math_utils/matrix4.h(59,21): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\vis_utils/filters/catmullrom_rgba.hpp(17,67): warning C4244: “return”: 从“double”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\vis_utils\renderoutputframe.cpp(104,15): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\vis_utils\renderoutputframe.cpp(110,15): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\vis_utils\renderoutputframe.cpp(566,80): warning C4244: “参数”: 从“float”转换到“GLsizei”，可能丢失数据
+  summedareatable.cpp
+E:\cpp_volume_rendering\libs\vis_utils\summedareatable.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  正在生成代码...
+  vis_utils.vcxproj -> E:\cpp_volume_rendering\bin\Debug\vis_utils.lib

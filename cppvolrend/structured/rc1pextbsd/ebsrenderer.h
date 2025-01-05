@@ -83,7 +83,7 @@ protected:
   gl::Texture3D* glsl_sat3d_tex;
 
   // Rendering shaders
-  gl::ComputeShader* cp_shader_rendering;
+  gl::ComputeShader* cp_geometry_pass;
 
   glm::mat4 ProjectionMatrix, ViewMatrix;
   void CreateRenderingPass ();

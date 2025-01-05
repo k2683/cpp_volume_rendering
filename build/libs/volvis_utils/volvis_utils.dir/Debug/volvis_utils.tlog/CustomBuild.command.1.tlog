@@ -1,0 +1,10 @@
+^E:\CPP_VOLUME_RENDERING\LIBS\VOLVIS_UTILS\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SE:/cpp_volume_rendering -BE:/cpp_volume_rendering/build --check-stamp-file E:/cpp_volume_rendering/build/libs/volvis_utils/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

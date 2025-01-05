@@ -1,0 +1,32 @@
+﻿  Building Custom Rule E:/cpp_volume_rendering/libs/file_utils/CMakeLists.txt
+  pvm_old.cpp
+E:\cpp_volume_rendering\libs\file_utils\pvm_old.cpp(57,27): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\file_utils\pvm_old.cpp(61,21): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\file_utils\pvm_old.cpp(69,27): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\file_utils\pvm_old.cpp(73,21): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\file_utils\pvm_old.cpp(85,21): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\file_utils\pvm_old.cpp(91,23): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\file_utils\pvm_old.cpp(119,31): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\file_utils\pvm_old.cpp(120,31): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\file_utils\pvm_old.cpp(123,21): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\file_utils\pvm_old.cpp(135,21): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\file_utils\pvm_old.cpp(147,7): warning C4554: “|”: 检查运算符优先级是否存在的可能的错误；使用括号阐明优先级
+E:\cpp_volume_rendering\libs\file_utils\pvm_old.cpp(232,87): warning C4267: “=”: 从“size_t”转换到“unsigned int”，可能丢失数据
+E:\cpp_volume_rendering\libs\file_utils\pvm_old.cpp(233,94): warning C4267: “=”: 从“size_t”转换到“unsigned int”，可能丢失数据
+E:\cpp_volume_rendering\libs\file_utils\pvm_old.cpp(234,101): warning C4267: “=”: 从“size_t”转换到“unsigned int”，可能丢失数据
+E:\cpp_volume_rendering\libs\file_utils\pvm_old.cpp(235,108): warning C4267: “=”: 从“size_t”转换到“unsigned int”，可能丢失数据
+E:\cpp_volume_rendering\libs\file_utils\pvm_old.cpp(567,55): warning C4267: “=”: 从“size_t”转换到“unsigned int”，可能丢失数据
+  pvm.cpp
+E:\cpp_volume_rendering\libs\file_utils\pvm.cpp(86,23): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\file_utils\pvm.cpp(94,23): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\file_utils\pvm.cpp(115,27): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\file_utils\pvm.cpp(120,23): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\file_utils\pvm.cpp(126,23): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\file_utils\pvm.cpp(256,87): warning C4267: “=”: 从“size_t”转换到“unsigned int”，可能丢失数据
+E:\cpp_volume_rendering\libs\file_utils\pvm.cpp(257,94): warning C4267: “=”: 从“size_t”转换到“unsigned int”，可能丢失数据
+E:\cpp_volume_rendering\libs\file_utils\pvm.cpp(258,101): warning C4267: “=”: 从“size_t”转换到“unsigned int”，可能丢失数据
+E:\cpp_volume_rendering\libs\file_utils\pvm.cpp(259,108): warning C4267: “=”: 从“size_t”转换到“unsigned int”，可能丢失数据
+E:\cpp_volume_rendering\libs\file_utils\pvm.cpp(591,55): warning C4267: “=”: 从“size_t”转换到“unsigned int”，可能丢失数据
+  rawloader.cpp
+  正在生成代码...
+  file_utils.vcxproj -> E:\cpp_volume_rendering\bin\Debug\file_utils.lib

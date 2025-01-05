@@ -11,7 +11,7 @@
 
 
 RayCasting1PassIsoAdapt::RayCasting1PassIsoAdapt()
-  :cp_shader_rendering(nullptr)
+  :cp_geometry_pass(nullptr)
   ,m_u_isovalue(0.5f)
   ,m_u_step_size_small(0.05f)
   ,m_u_step_size_large(1.0f)
@@ -47,8 +47,8 @@ vis::GRID_VOLUME_DATA_TYPE RayCasting1PassIsoAdapt::GetDataTypeSupport()
 
 void RayCasting1PassIsoAdapt::Clean()
 {
-  if (cp_shader_rendering) delete cp_shader_rendering;
-  cp_shader_rendering = nullptr;
+  if (cp_geometry_pass) delete cp_geometry_pass;
+  cp_geometry_pass = nullptr;
 
   gl::ExitOnGLError("Could not destroy shaders");
 
@@ -80,25 +80,25 @@ bool RayCasting1PassIsoAdapt::Init(int swidth, int sheight)
   glm::vec3 vol_aabb = vol_resolution * vol_voxelsize;
 
   // - load shaders
-  cp_shader_rendering = new gl::ComputeShader();
-  cp_shader_rendering->AddShaderFile(CPPVOLREND_DIR"structured/_common_shaders/ray_bbox_intersection.comp");
-  cp_shader_rendering->AddShaderFile(CPPVOLREND_DIR"structured/rc1pisoadapt/ray_marching_1p_iso_adapt.comp");
-  cp_shader_rendering->LoadAndLink();
-  cp_shader_rendering->Bind();
+  cp_geometry_pass = new gl::ComputeShader();
+  cp_geometry_pass->AddShaderFile(CPPVOLREND_DIR"structured/_common_shaders/ray_bbox_intersection.comp");
+  cp_geometry_pass->AddShaderFile(CPPVOLREND_DIR"structured/rc1pisoadapt/ray_marching_1p_iso_adapt.comp");
+  cp_geometry_pass->LoadAndLink();
+  cp_geometry_pass->Bind();
 
   // - data sets to work on: scalar field and its gradient
   if (m_ext_data_manager->GetCurrentVolumeTexture())
-    cp_shader_rendering->SetUniformTexture3D("TexVolume", m_ext_data_manager->GetCurrentVolumeTexture()->GetTextureID(), 1);
+    cp_geometry_pass->SetUniformTexture3D("TexVolume", m_ext_data_manager->GetCurrentVolumeTexture()->GetTextureID(), 1);
   if (m_apply_gradient_shading && m_ext_data_manager->GetCurrentGradientTexture())
-    cp_shader_rendering->SetUniformTexture3D("TexVolumeGradient", m_ext_data_manager->GetCurrentGradientTexture()->GetTextureID(), 2);
+    cp_geometry_pass->SetUniformTexture3D("TexVolumeGradient", m_ext_data_manager->GetCurrentGradientTexture()->GetTextureID(), 2);
 
   // - let the shader know about the uniform grid
-  cp_shader_rendering->SetUniform("VolumeGridResolution", vol_resolution);
-  cp_shader_rendering->SetUniform("VolumeVoxelSize", vol_voxelsize);
-  cp_shader_rendering->SetUniform("VolumeGridSize", vol_aabb);
+  cp_geometry_pass->SetUniform("VolumeGridResolution", vol_resolution);
+  cp_geometry_pass->SetUniform("VolumeVoxelSize", vol_voxelsize);
+  cp_geometry_pass->SetUniform("VolumeGridSize", vol_aabb);
 
-  cp_shader_rendering->BindUniforms();
-  cp_shader_rendering->Unbind();
+  cp_geometry_pass->BindUniforms();
+  cp_geometry_pass->Unbind();
   gl::ExitOnGLError("RayCasting1PassIsoAdapt: Error on Preparing Models and Shaders");
 
 
@@ -116,57 +116,57 @@ bool RayCasting1PassIsoAdapt::Init(int swidth, int sheight)
 
 void RayCasting1PassIsoAdapt::ReloadShaders()
 {
-  cp_shader_rendering->Reload();
+  cp_geometry_pass->Reload();
   m_rdr_frame_to_screen.ClearShaders();
 }
 
 
 bool RayCasting1PassIsoAdapt::Update(vis::Camera* camera)
 {
-  cp_shader_rendering->Bind();
+  cp_geometry_pass->Bind();
 
   /////////////////////////////
   // Multisample
   if (IsPixelMultiScalingSupported() && GetCurrentMultiScalingMode() > 0)
   {
-    cp_shader_rendering->RecomputeNumberOfGroups(m_rdr_frame_to_screen.GetWidth(),
+    cp_geometry_pass->RecomputeNumberOfGroups(m_rdr_frame_to_screen.GetWidth(),
                                                  m_rdr_frame_to_screen.GetHeight(), 0);
   }
   else
   {
-    cp_shader_rendering->RecomputeNumberOfGroups(m_ext_rendering_parameters->GetScreenWidth(),
+    cp_geometry_pass->RecomputeNumberOfGroups(m_ext_rendering_parameters->GetScreenWidth(),
                                                  m_ext_rendering_parameters->GetScreenHeight(), 0);
   }
 
   /////////////////////////////
   // Camera
-  cp_shader_rendering->SetUniform("CameraEye", camera->GetEye());
-  cp_shader_rendering->SetUniform("u_CameraLookAt", camera->LookAt());
-  cp_shader_rendering->SetUniform("ProjectionMatrix", camera->Projection());
-  cp_shader_rendering->SetUniform("u_TanCameraFovY", (float)tan(DEGREE_TO_RADIANS(camera->GetFovY()) / 2.0));
-  cp_shader_rendering->SetUniform("u_CameraAspectRatio", camera->GetAspectRatio());
-  cp_shader_rendering->SetUniform("WorldEyePos", camera->GetEye());
+  cp_geometry_pass->SetUniform("CameraEye", camera->GetEye());
+  cp_geometry_pass->SetUniform("u_CameraLookAt", camera->LookAt());
+  cp_geometry_pass->SetUniform("ProjectionMatrix", camera->Projection());
+  cp_geometry_pass->SetUniform("u_TanCameraFovY", (float)tan(DEGREE_TO_RADIANS(camera->GetFovY()) / 2.0));
+  cp_geometry_pass->SetUniform("u_CameraAspectRatio", camera->GetAspectRatio());
+  cp_geometry_pass->SetUniform("WorldEyePos", camera->GetEye());
 
   /////////////////////////////
   // Isosurface aspects
-  cp_shader_rendering->SetUniform("Isovalue", m_u_isovalue);
-  cp_shader_rendering->SetUniform("StepSizeSmall", m_u_step_size_small);
-  cp_shader_rendering->SetUniform("StepSizeLarge", m_u_step_size_large);
-  cp_shader_rendering->SetUniform("StepSizeRange", m_u_step_size_range);
-  cp_shader_rendering->SetUniform("Color", m_u_color);
-  cp_shader_rendering->SetUniform("ApplyGradientPhongShading", (m_apply_gradient_shading && m_ext_data_manager->GetCurrentGradientTexture()) ? 1 : 0);
+  cp_geometry_pass->SetUniform("Isovalue", m_u_isovalue);
+  cp_geometry_pass->SetUniform("StepSizeSmall", m_u_step_size_small);
+  cp_geometry_pass->SetUniform("StepSizeLarge", m_u_step_size_large);
+  cp_geometry_pass->SetUniform("StepSizeRange", m_u_step_size_range);
+  cp_geometry_pass->SetUniform("Color", m_u_color);
+  cp_geometry_pass->SetUniform("ApplyGradientPhongShading", (m_apply_gradient_shading && m_ext_data_manager->GetCurrentGradientTexture()) ? 1 : 0);
 
   /////////////////////////////
   // Shading
-  cp_shader_rendering->SetUniform("BlinnPhongKa", m_ext_rendering_parameters->GetBlinnPhongKambient());
-  cp_shader_rendering->SetUniform("BlinnPhongKd", m_ext_rendering_parameters->GetBlinnPhongKdiffuse());
-  cp_shader_rendering->SetUniform("BlinnPhongKs", m_ext_rendering_parameters->GetBlinnPhongKspecular());
-  cp_shader_rendering->SetUniform("BlinnPhongShininess", m_ext_rendering_parameters->GetBlinnPhongNshininess());
-  cp_shader_rendering->SetUniform("BlinnPhongIspecular", m_ext_rendering_parameters->GetLightSourceSpecular());
-  cp_shader_rendering->SetUniform("LightSourcePosition", m_ext_rendering_parameters->GetBlinnPhongLightingPosition());
+  cp_geometry_pass->SetUniform("BlinnPhongKa", m_ext_rendering_parameters->GetBlinnPhongKambient());
+  cp_geometry_pass->SetUniform("BlinnPhongKd", m_ext_rendering_parameters->GetBlinnPhongKdiffuse());
+  cp_geometry_pass->SetUniform("BlinnPhongKs", m_ext_rendering_parameters->GetBlinnPhongKspecular());
+  cp_geometry_pass->SetUniform("BlinnPhongShininess", m_ext_rendering_parameters->GetBlinnPhongNshininess());
+  cp_geometry_pass->SetUniform("BlinnPhongIspecular", m_ext_rendering_parameters->GetLightSourceSpecular());
+  cp_geometry_pass->SetUniform("LightSourcePosition", m_ext_rendering_parameters->GetBlinnPhongLightingPosition());
 
   //Bind all uniforms!
-  cp_shader_rendering->BindUniforms();
+  cp_geometry_pass->BindUniforms();
 
   gl::Shader::Unbind();
   gl::ExitOnGLError("RayCasting1PassIsoAdapt: After Update.");
@@ -178,10 +178,10 @@ void RayCasting1PassIsoAdapt::Redraw()
 {
   m_rdr_frame_to_screen.ClearTexture();
 
-  cp_shader_rendering->Bind();
+  cp_geometry_pass->Bind();
   m_rdr_frame_to_screen.BindImageTexture();
 
-  cp_shader_rendering->Dispatch();
+  cp_geometry_pass->Dispatch();
   gl::ComputeShader::Unbind();
  
   m_rdr_frame_to_screen.Draw();
@@ -244,13 +244,13 @@ void RayCasting1PassIsoAdapt::SetImGuiComponents()
     if (ImGui::Checkbox("Apply Gradient Shading", &m_apply_gradient_shading))
     {
       // Delete current uniform
-      cp_shader_rendering->ClearUniform("TexVolumeGradient");
+      cp_geometry_pass->ClearUniform("TexVolumeGradient");
 
       if (m_apply_gradient_shading && m_ext_data_manager->GetCurrentGradientTexture())
       {
-        cp_shader_rendering->Bind();
-        cp_shader_rendering->SetUniformTexture3D("TexVolumeGradient", m_ext_data_manager->GetCurrentGradientTexture()->GetTextureID(), 2);
-        cp_shader_rendering->BindUniform("TexVolumeGradient");
+        cp_geometry_pass->Bind();
+        cp_geometry_pass->SetUniformTexture3D("TexVolumeGradient", m_ext_data_manager->GetCurrentGradientTexture()->GetTextureID(), 2);
+        cp_geometry_pass->BindUniform("TexVolumeGradient");
         gl::ComputeShader::Unbind();
       }
       SetOutdated();

@@ -1,0 +1,9 @@
+﻿  Building Custom Rule E:/cpp_volume_rendering/libs/math_utils/CMakeLists.txt
+  convexhull.cpp
+  geometry.cpp
+  gfilter.cpp
+  utils.cpp
+E:\cpp_volume_rendering\libs\math_utils\matrix4.h(58,21): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\math_utils\matrix4.h(59,21): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+  正在生成代码...
+  math_utils.vcxproj -> E:\cpp_volume_rendering\bin\Debug\math_utils.lib

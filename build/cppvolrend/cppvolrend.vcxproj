@@ -1,0 +1,439 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{99E55B9B-2467-35EF-A4C5-9D8B8018162B}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>cppvolrend</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">E:\cpp_volume_rendering\bin\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cppvolrend.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cppvolrend</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">E:\cpp_volume_rendering\bin\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cppvolrend.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cppvolrend</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">E:\cpp_volume_rendering\bin\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">cppvolrend.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">cppvolrend</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">E:\cpp_volume_rendering\bin\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">cppvolrend.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">cppvolrend</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>E:\cpp_volume_rendering\include;E:\cpp_volume_rendering\libs;E:\cpp_volume_rendering\external;E:\cpp_volume_rendering\external\imgui;E:\cpp_volume_rendering\external\imgui\examples;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /EHc</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MinimalRebuild>
+      </MinimalRebuild>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SupportJustMyCode>
+      </SupportJustMyCode>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;CMAKE_PATH_TO_RESOURCES=E:/cpp_volume_rendering/../resources/;CMAKE_PATH_OUTPUT_DIR=E:/cpp_volume_rendering/bin;CMAKE_PATH_TO_APP_FOLDER=E:/cpp_volume_rendering/cppvolrend/;CMAKE_PATH_TO_INCLUDE=E:/cpp_volume_rendering/include/;CMAKE_PATH_TO_DATA_FOLDER=E:/cpp_volume_rendering/data/;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;CMAKE_PATH_TO_RESOURCES=E:/cpp_volume_rendering/../resources/;CMAKE_PATH_OUTPUT_DIR=E:/cpp_volume_rendering/bin;CMAKE_PATH_TO_APP_FOLDER=E:/cpp_volume_rendering/cppvolrend/;CMAKE_PATH_TO_INCLUDE=E:/cpp_volume_rendering/include/;CMAKE_PATH_TO_DATA_FOLDER=E:/cpp_volume_rendering/data/;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\cpp_volume_rendering\include;E:\cpp_volume_rendering\libs;E:\cpp_volume_rendering\external;E:\cpp_volume_rendering\external\imgui;E:\cpp_volume_rendering\external\imgui\examples;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\cpp_volume_rendering\include;E:\cpp_volume_rendering\libs;E:\cpp_volume_rendering\external;E:\cpp_volume_rendering\external\imgui;E:\cpp_volume_rendering\external\imgui\examples;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;freeglut/freeglut.lib;glfw/debug/glfw3.lib;glew/glew32s.lib;glew/glew32.lib;E:\cpp_volume_rendering\bin\Debug\file_utils.lib;E:\cpp_volume_rendering\bin\Debug\gl_utils.lib;E:\cpp_volume_rendering\bin\Debug\math_utils.lib;E:\cpp_volume_rendering\bin\Debug\vis_utils.lib;E:\cpp_volume_rendering\bin\Debug\volvis_utils.lib;im_3_12/im.lib;E:\cpp_volume_rendering\bin\Debug\vis_utils.lib;E:\cpp_volume_rendering\bin\Debug\file_utils.lib;E:\cpp_volume_rendering\bin\Debug\gl_utils.lib;glew/glew32s.lib;glew/glew32.lib;E:\cpp_volume_rendering\bin\Debug\math_utils.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>E:/cpp_volume_rendering/bin;E:/cpp_volume_rendering/bin/$(Configuration);E:/cpp_volume_rendering/lib;E:/cpp_volume_rendering/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>E:/cpp_volume_rendering/bin/Debug/cppvolrend.lib</ImportLibrary>
+      <ProgramDataBaseFile>E:/cpp_volume_rendering/bin/Debug/cppvolrend.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>E:\cpp_volume_rendering\include;E:\cpp_volume_rendering\libs;E:\cpp_volume_rendering\external;E:\cpp_volume_rendering\external\imgui;E:\cpp_volume_rendering\external\imgui\examples;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /EHc</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MinimalRebuild>
+      </MinimalRebuild>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SupportJustMyCode>
+      </SupportJustMyCode>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_PATH_TO_RESOURCES=E:/cpp_volume_rendering/../resources/;CMAKE_PATH_OUTPUT_DIR=E:/cpp_volume_rendering/bin;CMAKE_PATH_TO_APP_FOLDER=E:/cpp_volume_rendering/cppvolrend/;CMAKE_PATH_TO_INCLUDE=E:/cpp_volume_rendering/include/;CMAKE_PATH_TO_DATA_FOLDER=E:/cpp_volume_rendering/data/;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_PATH_TO_RESOURCES=E:/cpp_volume_rendering/../resources/;CMAKE_PATH_OUTPUT_DIR=E:/cpp_volume_rendering/bin;CMAKE_PATH_TO_APP_FOLDER=E:/cpp_volume_rendering/cppvolrend/;CMAKE_PATH_TO_INCLUDE=E:/cpp_volume_rendering/include/;CMAKE_PATH_TO_DATA_FOLDER=E:/cpp_volume_rendering/data/;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\cpp_volume_rendering\include;E:\cpp_volume_rendering\libs;E:\cpp_volume_rendering\external;E:\cpp_volume_rendering\external\imgui;E:\cpp_volume_rendering\external\imgui\examples;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\cpp_volume_rendering\include;E:\cpp_volume_rendering\libs;E:\cpp_volume_rendering\external;E:\cpp_volume_rendering\external\imgui;E:\cpp_volume_rendering\external\imgui\examples;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;freeglut/freeglut.lib;glfw/release/glfw3.lib;glew/glew32s.lib;glew/glew32.lib;E:\cpp_volume_rendering\bin\Release\file_utils.lib;E:\cpp_volume_rendering\bin\Release\gl_utils.lib;E:\cpp_volume_rendering\bin\Release\math_utils.lib;E:\cpp_volume_rendering\bin\Release\vis_utils.lib;E:\cpp_volume_rendering\bin\Release\volvis_utils.lib;im_3_12/im.lib;E:\cpp_volume_rendering\bin\Release\vis_utils.lib;E:\cpp_volume_rendering\bin\Release\file_utils.lib;E:\cpp_volume_rendering\bin\Release\gl_utils.lib;glew/glew32s.lib;glew/glew32.lib;E:\cpp_volume_rendering\bin\Release\math_utils.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>E:/cpp_volume_rendering/bin;E:/cpp_volume_rendering/bin/$(Configuration);E:/cpp_volume_rendering/lib;E:/cpp_volume_rendering/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>E:/cpp_volume_rendering/bin/Release/cppvolrend.lib</ImportLibrary>
+      <ProgramDataBaseFile>E:/cpp_volume_rendering/bin/Release/cppvolrend.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>E:\cpp_volume_rendering\include;E:\cpp_volume_rendering\libs;E:\cpp_volume_rendering\external;E:\cpp_volume_rendering\external\imgui;E:\cpp_volume_rendering\external\imgui\examples;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /EHc</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MinimalRebuild>
+      </MinimalRebuild>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SupportJustMyCode>
+      </SupportJustMyCode>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_PATH_TO_RESOURCES=E:/cpp_volume_rendering/../resources/;CMAKE_PATH_OUTPUT_DIR=E:/cpp_volume_rendering/bin;CMAKE_PATH_TO_APP_FOLDER=E:/cpp_volume_rendering/cppvolrend/;CMAKE_PATH_TO_INCLUDE=E:/cpp_volume_rendering/include/;CMAKE_PATH_TO_DATA_FOLDER=E:/cpp_volume_rendering/data/;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_PATH_TO_RESOURCES=E:/cpp_volume_rendering/../resources/;CMAKE_PATH_OUTPUT_DIR=E:/cpp_volume_rendering/bin;CMAKE_PATH_TO_APP_FOLDER=E:/cpp_volume_rendering/cppvolrend/;CMAKE_PATH_TO_INCLUDE=E:/cpp_volume_rendering/include/;CMAKE_PATH_TO_DATA_FOLDER=E:/cpp_volume_rendering/data/;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\cpp_volume_rendering\include;E:\cpp_volume_rendering\libs;E:\cpp_volume_rendering\external;E:\cpp_volume_rendering\external\imgui;E:\cpp_volume_rendering\external\imgui\examples;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\cpp_volume_rendering\include;E:\cpp_volume_rendering\libs;E:\cpp_volume_rendering\external;E:\cpp_volume_rendering\external\imgui;E:\cpp_volume_rendering\external\imgui\examples;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;freeglut/freeglut.lib;glfw/release/glfw3.lib;glew/glew32s.lib;glew/glew32.lib;E:\cpp_volume_rendering\bin\MinSizeRel\file_utils.lib;E:\cpp_volume_rendering\bin\MinSizeRel\gl_utils.lib;E:\cpp_volume_rendering\bin\MinSizeRel\math_utils.lib;E:\cpp_volume_rendering\bin\MinSizeRel\vis_utils.lib;E:\cpp_volume_rendering\bin\MinSizeRel\volvis_utils.lib;im_3_12/im.lib;E:\cpp_volume_rendering\bin\MinSizeRel\vis_utils.lib;E:\cpp_volume_rendering\bin\MinSizeRel\file_utils.lib;E:\cpp_volume_rendering\bin\MinSizeRel\gl_utils.lib;glew/glew32s.lib;glew/glew32.lib;E:\cpp_volume_rendering\bin\MinSizeRel\math_utils.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>E:/cpp_volume_rendering/bin;E:/cpp_volume_rendering/bin/$(Configuration);E:/cpp_volume_rendering/lib;E:/cpp_volume_rendering/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>E:/cpp_volume_rendering/bin/MinSizeRel/cppvolrend.lib</ImportLibrary>
+      <ProgramDataBaseFile>E:/cpp_volume_rendering/bin/MinSizeRel/cppvolrend.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>E:\cpp_volume_rendering\include;E:\cpp_volume_rendering\libs;E:\cpp_volume_rendering\external;E:\cpp_volume_rendering\external\imgui;E:\cpp_volume_rendering\external\imgui\examples;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /EHc</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MinimalRebuild>
+      </MinimalRebuild>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SupportJustMyCode>
+      </SupportJustMyCode>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_PATH_TO_RESOURCES=E:/cpp_volume_rendering/../resources/;CMAKE_PATH_OUTPUT_DIR=E:/cpp_volume_rendering/bin;CMAKE_PATH_TO_APP_FOLDER=E:/cpp_volume_rendering/cppvolrend/;CMAKE_PATH_TO_INCLUDE=E:/cpp_volume_rendering/include/;CMAKE_PATH_TO_DATA_FOLDER=E:/cpp_volume_rendering/data/;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_PATH_TO_RESOURCES=E:/cpp_volume_rendering/../resources/;CMAKE_PATH_OUTPUT_DIR=E:/cpp_volume_rendering/bin;CMAKE_PATH_TO_APP_FOLDER=E:/cpp_volume_rendering/cppvolrend/;CMAKE_PATH_TO_INCLUDE=E:/cpp_volume_rendering/include/;CMAKE_PATH_TO_DATA_FOLDER=E:/cpp_volume_rendering/data/;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\cpp_volume_rendering\include;E:\cpp_volume_rendering\libs;E:\cpp_volume_rendering\external;E:\cpp_volume_rendering\external\imgui;E:\cpp_volume_rendering\external\imgui\examples;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\cpp_volume_rendering\include;E:\cpp_volume_rendering\libs;E:\cpp_volume_rendering\external;E:\cpp_volume_rendering\external\imgui;E:\cpp_volume_rendering\external\imgui\examples;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;freeglut/freeglut.lib;glfw/release/glfw3.lib;glew/glew32s.lib;glew/glew32.lib;E:\cpp_volume_rendering\bin\RelWithDebInfo\file_utils.lib;E:\cpp_volume_rendering\bin\RelWithDebInfo\gl_utils.lib;E:\cpp_volume_rendering\bin\RelWithDebInfo\math_utils.lib;E:\cpp_volume_rendering\bin\RelWithDebInfo\vis_utils.lib;E:\cpp_volume_rendering\bin\RelWithDebInfo\volvis_utils.lib;im_3_12/im.lib;E:\cpp_volume_rendering\bin\RelWithDebInfo\vis_utils.lib;E:\cpp_volume_rendering\bin\RelWithDebInfo\file_utils.lib;E:\cpp_volume_rendering\bin\RelWithDebInfo\gl_utils.lib;glew/glew32s.lib;glew/glew32.lib;E:\cpp_volume_rendering\bin\RelWithDebInfo\math_utils.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>E:/cpp_volume_rendering/bin;E:/cpp_volume_rendering/bin/$(Configuration);E:/cpp_volume_rendering/lib;E:/cpp_volume_rendering/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>E:/cpp_volume_rendering/bin/RelWithDebInfo/cppvolrend.lib</ImportLibrary>
+      <ProgramDataBaseFile>E:/cpp_volume_rendering/bin/RelWithDebInfo/cppvolrend.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="E:\cpp_volume_rendering\cppvolrend\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule E:/cpp_volume_rendering/cppvolrend/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SE:/cpp_volume_rendering -BE:/cpp_volume_rendering/build --check-stamp-file E:/cpp_volume_rendering/build/cppvolrend/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files\CMake\share\cmake-3.30\Modules\FindOpenGL.cmake;C:\Program Files\CMake\share\cmake-3.30\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.30\Modules\FindPackageMessage.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">E:\cpp_volume_rendering\build\cppvolrend\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule E:/cpp_volume_rendering/cppvolrend/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SE:/cpp_volume_rendering -BE:/cpp_volume_rendering/build --check-stamp-file E:/cpp_volume_rendering/build/cppvolrend/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Program Files\CMake\share\cmake-3.30\Modules\FindOpenGL.cmake;C:\Program Files\CMake\share\cmake-3.30\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.30\Modules\FindPackageMessage.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">E:\cpp_volume_rendering\build\cppvolrend\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule E:/cpp_volume_rendering/cppvolrend/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SE:/cpp_volume_rendering -BE:/cpp_volume_rendering/build --check-stamp-file E:/cpp_volume_rendering/build/cppvolrend/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Program Files\CMake\share\cmake-3.30\Modules\FindOpenGL.cmake;C:\Program Files\CMake\share\cmake-3.30\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.30\Modules\FindPackageMessage.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">E:\cpp_volume_rendering\build\cppvolrend\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule E:/cpp_volume_rendering/cppvolrend/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SE:/cpp_volume_rendering -BE:/cpp_volume_rendering/build --check-stamp-file E:/cpp_volume_rendering/build/cppvolrend/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Program Files\CMake\share\cmake-3.30\Modules\FindOpenGL.cmake;C:\Program Files\CMake\share\cmake-3.30\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.30\Modules\FindPackageMessage.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">E:\cpp_volume_rendering\build\cppvolrend\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\cppvolrend\structured\AdvancedDeferredShading\AdvancedDeferredShading.cpp" />
+    <ClCompile Include="..\..\cppvolrend\structured\DeferredShading\DeferredShading.cpp" />
+    <ClCompile Include="..\..\cppvolrend\structured\rc1pisocustom\rc1custompisoadaptrenderer.cpp" />
+    <ClCompile Include="..\..\cppvolrend\structured\rc1pisodfscustom\rc1custompisoadaptdfsrenderer.cpp" />
+    <ClCompile Include="E:\cpp_volume_rendering\cppvolrend\main.cpp" />
+    <ClInclude Include="E:\cpp_volume_rendering\cppvolrend\defines.h" />
+    <ClCompile Include="E:\cpp_volume_rendering\cppvolrend\app_freeglut.cpp" />
+    <ClInclude Include="E:\cpp_volume_rendering\cppvolrend\app_freeglut.h" />
+    <ClCompile Include="E:\cpp_volume_rendering\cppvolrend\app_glfw.cpp" />
+    <ClInclude Include="E:\cpp_volume_rendering\cppvolrend\app_glfw.h" />
+    <ClCompile Include="E:\cpp_volume_rendering\cppvolrend\renderingmanager.cpp" />
+    <ClInclude Include="E:\cpp_volume_rendering\cppvolrend\renderingmanager.h" />
+    <ClCompile Include="E:\cpp_volume_rendering\cppvolrend\volrenderbase.cpp" />
+    <ClInclude Include="E:\cpp_volume_rendering\cppvolrend\volrenderbase.h" />
+    <ClCompile Include="E:\cpp_volume_rendering\cppvolrend\volrendernull.cpp" />
+    <ClInclude Include="E:\cpp_volume_rendering\cppvolrend\volrendernull.h" />
+    <ClCompile Include="E:\cpp_volume_rendering\cppvolrend\structured\rc1pass\rc1prenderer.cpp" />
+    <ClInclude Include="E:\cpp_volume_rendering\cppvolrend\structured\rc1pass\rc1prenderer.h" />
+    <ClCompile Include="E:\cpp_volume_rendering\cppvolrend\structured\rc1pisoadapt\rc1pisoadaptrenderer.cpp" />
+    <ClInclude Include="E:\cpp_volume_rendering\cppvolrend\structured\rc1pisoadapt\rc1pisoadaptrenderer.h" />
+    <ClCompile Include="E:\cpp_volume_rendering\cppvolrend\structured\rc1pcrtgt\crtgtrenderer.cpp" />
+    <ClInclude Include="E:\cpp_volume_rendering\cppvolrend\structured\rc1pcrtgt\crtgtrenderer.h" />
+    <ClCompile Include="E:\cpp_volume_rendering\cppvolrend\structured\rc1pdosct\conegaussiansampler.cpp" />
+    <ClInclude Include="E:\cpp_volume_rendering\cppvolrend\structured\rc1pdosct\conegaussiansampler.h" />
+    <ClCompile Include="E:\cpp_volume_rendering\cppvolrend\structured\rc1pdosct\dosrcrenderer.cpp" />
+    <ClInclude Include="E:\cpp_volume_rendering\cppvolrend\structured\rc1pdosct\dosrcrenderer.h" />
+    <ClCompile Include="E:\cpp_volume_rendering\cppvolrend\structured\rc1pdosct\extcoefvolumegenerator.cpp" />
+    <ClInclude Include="E:\cpp_volume_rendering\cppvolrend\structured\rc1pdosct\extcoefvolumegenerator.h" />
+    <ClCompile Include="E:\cpp_volume_rendering\cppvolrend\structured\rc1pextbsd\ebsrenderer.cpp" />
+    <ClInclude Include="E:\cpp_volume_rendering\cppvolrend\structured\rc1pextbsd\ebsrenderer.h" />
+    <ClCompile Include="E:\cpp_volume_rendering\cppvolrend\structured\rc1pvctsg\preprocessingstages.cpp" />
+    <ClInclude Include="E:\cpp_volume_rendering\cppvolrend\structured\rc1pvctsg\preprocessingstages.h" />
+    <ClCompile Include="E:\cpp_volume_rendering\cppvolrend\structured\rc1pvctsg\vctrenderer.cpp" />
+    <ClInclude Include="E:\cpp_volume_rendering\cppvolrend\structured\rc1pvctsg\vctrenderer.h" />
+    <ClCompile Include="E:\cpp_volume_rendering\cppvolrend\structured\sbtmdos\sbtmdosrenderer.cpp" />
+    <ClInclude Include="E:\cpp_volume_rendering\cppvolrend\structured\sbtmdos\sbtmdosrenderer.h" />
+    <ClCompile Include="E:\cpp_volume_rendering\cppvolrend\structured\sbtmdos\layeredframebufferobject.cpp" />
+    <ClInclude Include="E:\cpp_volume_rendering\cppvolrend\structured\sbtmdos\layeredframebufferobject.h" />
+    <ClCompile Include="E:\cpp_volume_rendering\cppvolrend\utils\preillumination.cpp" />
+    <ClInclude Include="E:\cpp_volume_rendering\cppvolrend\utils\preillumination.h" />
+    <ClCompile Include="E:\cpp_volume_rendering\cppvolrend\utils\parameterspace.cpp" />
+    <ClInclude Include="E:\cpp_volume_rendering\cppvolrend\utils\parameterspace.h" />
+    <ClInclude Include="E:\cpp_volume_rendering\external\imgui\imconfig.h" />
+    <ClCompile Include="E:\cpp_volume_rendering\external\imgui\imgui_demo.cpp" />
+    <ClInclude Include="E:\cpp_volume_rendering\external\imgui\imgui.h" />
+    <ClCompile Include="E:\cpp_volume_rendering\external\imgui\imgui.cpp" />
+    <ClCompile Include="E:\cpp_volume_rendering\external\imgui\imgui_draw.cpp" />
+    <ClInclude Include="E:\cpp_volume_rendering\external\imgui\imgui_internal.h" />
+    <ClCompile Include="E:\cpp_volume_rendering\external\imgui\imgui_widgets.cpp" />
+    <ClInclude Include="E:\cpp_volume_rendering\external\imgui\imstb_rectpack.h" />
+    <ClInclude Include="E:\cpp_volume_rendering\external\imgui\imstb_textedit.h" />
+    <ClInclude Include="E:\cpp_volume_rendering\external\imgui\imstb_truetype.h" />
+    <ClInclude Include="E:\cpp_volume_rendering\external\imgui\examples\imgui_impl_glut.h" />
+    <ClCompile Include="E:\cpp_volume_rendering\external\imgui\examples\imgui_impl_glut.cpp" />
+    <ClInclude Include="E:\cpp_volume_rendering\external\imgui\examples\imgui_impl_opengl2.h" />
+    <ClCompile Include="E:\cpp_volume_rendering\external\imgui\examples\imgui_impl_opengl2.cpp" />
+    <ClInclude Include="E:\cpp_volume_rendering\external\imgui\examples\imgui_impl_glfw.h" />
+    <ClCompile Include="E:\cpp_volume_rendering\external\imgui\examples\imgui_impl_glfw.cpp" />
+    <ClInclude Include="E:\cpp_volume_rendering\external\imgui\examples\imgui_impl_opengl3.h" />
+    <ClCompile Include="E:\cpp_volume_rendering\external\imgui\examples\imgui_impl_opengl3.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="E:\cpp_volume_rendering\build\ZERO_CHECK.vcxproj">
+      <Project>{9D39DC0E-B372-3690-9DC5-B92F34908FEC}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="E:\cpp_volume_rendering\build\libs\file_utils\file_utils.vcxproj">
+      <Project>{030D5DE9-9A20-3B6E-9411-859CDB96EB40}</Project>
+      <Name>file_utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="E:\cpp_volume_rendering\build\libs\gl_utils\gl_utils.vcxproj">
+      <Project>{538EC44A-A522-3C81-A585-597DDEA019E3}</Project>
+      <Name>gl_utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="E:\cpp_volume_rendering\build\libs\math_utils\math_utils.vcxproj">
+      <Project>{5BB813A0-5B77-36F5-BE62-FD068AD70F4A}</Project>
+      <Name>math_utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="E:\cpp_volume_rendering\build\libs\vis_utils\vis_utils.vcxproj">
+      <Project>{32FE7FE6-8815-3B43-9F21-E13A1C2A0C1B}</Project>
+      <Name>vis_utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="E:\cpp_volume_rendering\build\libs\volvis_utils\volvis_utils.vcxproj">
+      <Project>{B480616D-12D8-3128-9197-590B4C13B198}</Project>
+      <Name>volvis_utils</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

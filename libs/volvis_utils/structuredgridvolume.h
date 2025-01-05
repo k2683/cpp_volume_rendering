@@ -73,6 +73,8 @@ namespace vis
 
     double GetMaxDensity ();
 
+    DataStorageSize m_data_storage_size;
+
   protected:
     virtual void DestroyData ();
   
@@ -83,7 +85,6 @@ namespace vis
     
     glm::dvec3 m_grid_center;
   
-    DataStorageSize m_data_storage_size;
     void* m_voxel_values;
   };
 }

@@ -1,0 +1,59 @@
+// lighting_pass.comp - 光照阶段计算着色器
+#version 430
+
+// 输入G-Buffer纹理
+layout (binding = 0) uniform sampler2D gPosition;
+layout (binding = 1) uniform sampler2D gNormal;
+
+// 输出光照结果
+layout (rgba32f, binding = 2) uniform image2D outputLight;
+
+// 光照参数
+uniform vec3 lightPos;
+uniform vec3 viewPos;
+uniform vec3 lightColor;
+
+// 材质参数
+uniform float Ka;  // 环境光系数
+uniform float Kd;  // 漫反射系数
+uniform float Ks;  // 镜面反射系数
+uniform float shininess;  // 光泽度
+
+layout (local_size_x = 8, local_size_y = 8, local_size_z = 1) in;
+
+void main() {
+    ivec2 pixel = ivec2(gl_GlobalInvocationID.xy);
+    ivec2 size = imageSize(outputLight);
+    
+    if(pixel.x >= size.x || pixel.y >= size.y) {
+        return;
+    }
+    vec2 texCoord = vec2(pixel) / vec2(size);
+    vec3 pos = texture(gPosition, texCoord).xyz;
+    vec3 normal = texture(gNormal, texCoord).xyz;
+    
+    if(length(pos) < 0.001 || length(normal) < 0.001) {  // 更严格的几何体检查
+        imageStore(outputLight, pixel, vec4(1.0, 1.0, 1.0, 1.0));  //  输出透明
+        return;
+    }
+
+    
+    // 计算基本光照向量
+    vec3 lightDir = normalize(lightPos - pos);
+    vec3 viewDir = normalize(viewPos - pos);
+    vec3 halfDir = normalize(lightDir + viewDir);
+    
+    // 计算光照分量
+    float diff = max(dot(normal, lightDir), 0.0);
+    float spec = pow(max(dot(normal, halfDir), 0.0), shininess);
+    
+    // 计算最终颜色
+    vec3 ambient = Ka * lightColor;
+    vec3 diffuse = Kd * diff * lightColor;
+    vec3 specular = Ks * spec * lightColor;
+    
+    vec3 result = ambient + diffuse + specular;
+    
+    // 存储结果
+    imageStore(outputLight, pixel, vec4(result, 1.0));
+}

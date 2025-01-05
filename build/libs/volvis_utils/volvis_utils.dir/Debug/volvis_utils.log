@@ -1,0 +1,114 @@
+﻿  camerastatelist.cpp
+E:\cpp_volume_rendering\libs\volvis_utils\camerastatelist.cpp(91,36): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
+  datamanager.cpp
+E:\cpp_volume_rendering\libs\math_utils/matrix4.h(58,21): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\math_utils/matrix4.h(59,21): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\vis_utils/summedareatable.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+E:\cpp_volume_rendering\libs\volvis_utils\datamanager.cpp(108,45): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\datamanager.cpp(251,51): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\datamanager.cpp(252,45): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\datamanager.cpp(254,50): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\datamanager.cpp(255,44): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\datamanager.cpp(292,51): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\datamanager.cpp(293,45): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\datamanager.cpp(295,50): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\datamanager.cpp(296,44): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\datamanager.cpp(692,23): warning C4018: “<”: 有符号/无符号不匹配
+  dataprovider.cpp
+E:\cpp_volume_rendering\libs\math_utils/matrix4.h(58,21): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\math_utils/matrix4.h(59,21): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\vis_utils/summedareatable.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+E:\cpp_volume_rendering\libs\volvis_utils\dataprovider.cpp(49,53): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\dataprovider.cpp(50,47): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\dataprovider.cpp(52,52): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\dataprovider.cpp(53,46): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\dataprovider.cpp(153,55): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\dataprovider.cpp(154,49): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\dataprovider.cpp(254,53): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\dataprovider.cpp(255,47): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\dataprovider.cpp(257,52): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\dataprovider.cpp(258,46): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\dataprovider.cpp(328,43): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\dataprovider.cpp(344,23): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
+  lightsourcelist.cpp
+E:\cpp_volume_rendering\libs\volvis_utils\lightsourcelist.cpp(152,38): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
+  reader.cpp
+E:\cpp_volume_rendering\libs\volvis_utils\reader.cpp(32,43): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\reader.cpp(130,25): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\volvis_utils\reader.cpp(142,25): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\volvis_utils\reader.cpp(172,50): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\reader.cpp(176,47): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\reader.cpp(179,50): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\reader.cpp(184,53): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\reader.cpp(191,49): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\reader.cpp(196,49): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\reader.cpp(201,49): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\reader.cpp(255,23): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\volvis_utils\reader.cpp(259,23): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\volvis_utils\reader.cpp(260,62): warning C4244: “=”: 从“double”转换到“GLfloat”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\reader.cpp(382,41): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\reader.cpp(383,40): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\reader.cpp(509,43): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\reader.cpp(510,42): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\reader.cpp(527,11): warning C4101: “timestep”: 未引用的局部变量
+E:\cpp_volume_rendering\libs\volvis_utils\reader.cpp(522,11): warning C4101: “nbrtags”: 未引用的局部变量
+E:\cpp_volume_rendering\libs\volvis_utils\reader.cpp(732,39): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\reader.cpp(807,46): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  renderingparameters.cpp
+E:\cpp_volume_rendering\libs\volvis_utils\renderingparameters.cpp(92,38): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
+  structuredgridvolume.cpp
+E:\cpp_volume_rendering\libs\volvis_utils\structuredgridvolume.cpp(107,42): warning C4018: “>=”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\volvis_utils\structuredgridvolume.cpp(107,61): warning C4018: “>=”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\volvis_utils\structuredgridvolume.cpp(107,81): warning C4018: “>=”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\volvis_utils\structuredgridvolume.cpp(207,23): warning C4018: “<”: 有符号/无符号不匹配
+  utils.cpp
+E:\cpp_volume_rendering\libs\vis_utils/summedareatable.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+E:\cpp_volume_rendering\libs\volvis_utils\utils.cpp(386,22): warning C4244: “初始化”: 从“int”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\utils.cpp(387,22): warning C4244: “初始化”: 从“int”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\utils.cpp(388,22): warning C4244: “初始化”: 从“int”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\volvis_utils\utils.cpp(403,23): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\volvis_utils\utils.cpp(405,25): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\volvis_utils\utils.cpp(407,27): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\volvis_utils\utils.cpp(422,23): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\volvis_utils\utils.cpp(461,23): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\volvis_utils\utils.cpp(463,25): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\volvis_utils\utils.cpp(465,27): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\volvis_utils\utils.cpp(478,23): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\vis_utils/summedareatable.h(226,25): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\vis_utils/summedareatable.h(219): message : 在编译 类 模板 成员函数“void vis::SummedAreaTable3D<double>::BuildSAT(void)”时
+E:\cpp_volume_rendering\libs\volvis_utils\utils.cpp(414): message : 查看对正在编译的函数 模板 实例化“void vis::SummedAreaTable3D<double>::BuildSAT(void)”的引用
+E:\cpp_volume_rendering\libs\volvis_utils\utils.cpp(402): message : 查看对正在编译的 类 模板 实例化“vis::SummedAreaTable3D<double>”的引用
+E:\cpp_volume_rendering\libs\vis_utils/summedareatable.h(228,25): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\vis_utils/summedareatable.h(230,25): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\vis_utils/summedareatable.h(235,25): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\vis_utils/summedareatable.h(236,27): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\vis_utils/summedareatable.h(242,25): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\vis_utils/summedareatable.h(243,27): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\vis_utils/summedareatable.h(249,25): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\vis_utils/summedareatable.h(250,27): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\vis_utils/summedareatable.h(259,25): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\vis_utils/summedareatable.h(261,27): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\vis_utils/summedareatable.h(263,29): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\vis_utils/summedareatable.h(181,25): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\vis_utils/summedareatable.h(175): message : 在编译 类 模板 成员函数“vis::SummedAreaTable3D<double>::SummedAreaTable3D(unsigned int,unsigned int,unsigned int)”时
+E:\cpp_volume_rendering\libs\volvis_utils\utils.cpp(402): message : 查看对正在编译的函数 模板 实例化“vis::SummedAreaTable3D<double>::SummedAreaTable3D(unsigned int,unsigned int,unsigned int)”的引用
+E:\cpp_volume_rendering\libs\vis_utils/summedareatable.h(182,27): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\vis_utils/summedareatable.h(183,29): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\vis_utils/summedareatable.h(208,13): warning C4018: “>=”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\vis_utils/summedareatable.h(205): message : 在编译 类 模板 成员函数“T vis::SummedAreaTable3D<T>::GetValue(int,int,int)”时
+          with
+          [
+              T=double
+          ]
+E:\cpp_volume_rendering\libs\vis_utils/summedareatable.h(222): message : 查看对正在编译的函数 模板 实例化“T vis::SummedAreaTable3D<T>::GetValue(int,int,int)”的引用
+          with
+          [
+              T=double
+          ]
+E:\cpp_volume_rendering\libs\vis_utils/summedareatable.h(209,13): warning C4018: “>=”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\vis_utils/summedareatable.h(210,13): warning C4018: “>=”: 有符号/无符号不匹配
+  正在生成代码...
+E:\cpp_volume_rendering\libs\volvis_utils\dataprovider.cpp(383): warning C4715: “vis::DataProvider::GetBytesPerValueByType”: 不是所有的控件路径都返回值
+E:\cpp_volume_rendering\libs\volvis_utils\dataprovider.cpp(394): warning C4715: “vis::DataProvider::CSVstructuredgrid::GetTagValue”: 不是所有的控件路径都返回值
+E:\cpp_volume_rendering\libs\volvis_utils\datamanager.cpp(136): warning C4715: “vis::DataManager::GetCurrentGridVolume”: 不是所有的控件路径都返回值
+  volvis_utils.vcxproj -> E:\cpp_volume_rendering\bin\Debug\volvis_utils.lib

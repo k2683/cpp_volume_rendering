@@ -77,7 +77,7 @@ void RC1PExtinctionBasedShading::Clean ()
 
 void RC1PExtinctionBasedShading::ReloadShaders ()
 {
-  cp_shader_rendering->Reload();
+  cp_geometry_pass->Reload();
   if (cp_lightcache_shader) cp_lightcache_shader->Reload();
 }
 
@@ -128,118 +128,118 @@ bool RC1PExtinctionBasedShading::Update (vis::Camera* camera)
   {
     PreComputeLightCache(camera);
 
-    cp_shader_rendering->Bind();
+    cp_geometry_pass->Bind();
 
-    cp_shader_rendering->SetUniformTexture3D("TexVolumeLightCache", m_pre_illum_str_vol.GetLightCacheTexturePointer()->GetTextureID(), 4);
-    cp_shader_rendering->BindUniform("TexVolumeLightCache");
+    cp_geometry_pass->SetUniformTexture3D("TexVolumeLightCache", m_pre_illum_str_vol.GetLightCacheTexturePointer()->GetTextureID(), 4);
+    cp_geometry_pass->BindUniform("TexVolumeLightCache");
   }
   else // image space
   {
-    cp_shader_rendering->Bind();
+    cp_geometry_pass->Bind();
 
-    cp_shader_rendering->SetUniformTexture3D("TexVolumeSAT3D", glsl_sat3d_tex->GetTextureID(), 4);
-    cp_shader_rendering->BindUniform("TexVolumeSAT3D");
+    cp_geometry_pass->SetUniformTexture3D("TexVolumeSAT3D", glsl_sat3d_tex->GetTextureID(), 4);
+    cp_geometry_pass->BindUniform("TexVolumeSAT3D");
 
-    cp_shader_rendering->SetUniform("u_sat_width", (int)glsl_sat3d_tex->GetWidth());
-    cp_shader_rendering->BindUniform("u_sat_width");
-    cp_shader_rendering->SetUniform("u_sat_height", (int)glsl_sat3d_tex->GetHeight());
-    cp_shader_rendering->BindUniform("u_sat_height");
-    cp_shader_rendering->SetUniform("u_sat_depth", (int)glsl_sat3d_tex->GetDepth());
-    cp_shader_rendering->BindUniform("u_sat_depth");
+    cp_geometry_pass->SetUniform("u_sat_width", (int)glsl_sat3d_tex->GetWidth());
+    cp_geometry_pass->BindUniform("u_sat_width");
+    cp_geometry_pass->SetUniform("u_sat_height", (int)glsl_sat3d_tex->GetHeight());
+    cp_geometry_pass->BindUniform("u_sat_height");
+    cp_geometry_pass->SetUniform("u_sat_depth", (int)glsl_sat3d_tex->GetDepth());
+    cp_geometry_pass->BindUniform("u_sat_depth");
 
     // Ambient Occlusion
-    cp_shader_rendering->SetUniform("AmbOccShells", ambient_occlusion_shells);
-    cp_shader_rendering->BindUniform("AmbOccShells");
+    cp_geometry_pass->SetUniform("AmbOccShells", ambient_occlusion_shells);
+    cp_geometry_pass->BindUniform("AmbOccShells");
 
-    cp_shader_rendering->SetUniform("AmbOccRadius", ambient_occlusion_radius);
-    cp_shader_rendering->BindUniform("AmbOccRadius");
+    cp_geometry_pass->SetUniform("AmbOccRadius", ambient_occlusion_radius);
+    cp_geometry_pass->BindUniform("AmbOccRadius");
 
     // Directional Shadows
-    cp_shader_rendering->SetUniform("DirSdwConeSamples", dir_shadow_cone_samples);
-    cp_shader_rendering->BindUniform("DirSdwConeSamples");
+    cp_geometry_pass->SetUniform("DirSdwConeSamples", dir_shadow_cone_samples);
+    cp_geometry_pass->BindUniform("DirSdwConeSamples");
 
-    cp_shader_rendering->SetUniform("DirSdwConeAngle", (float)(dir_shadow_cone_angle * glm::pi<double>() / 180.0));
-    cp_shader_rendering->BindUniform("DirSdwConeAngle");
+    cp_geometry_pass->SetUniform("DirSdwConeAngle", (float)(dir_shadow_cone_angle * glm::pi<double>() / 180.0));
+    cp_geometry_pass->BindUniform("DirSdwConeAngle");
 
-    cp_shader_rendering->SetUniform("DirSdwSampleInterval", dir_shadow_sample_interval);
-    cp_shader_rendering->BindUniform("DirSdwSampleInterval");
+    cp_geometry_pass->SetUniform("DirSdwSampleInterval", dir_shadow_sample_interval);
+    cp_geometry_pass->BindUniform("DirSdwSampleInterval");
 
-    cp_shader_rendering->SetUniform("DirSdwInitialStep", dir_shadow_initial_step);
-    cp_shader_rendering->BindUniform("DirSdwInitialStep");
+    cp_geometry_pass->SetUniform("DirSdwInitialStep", dir_shadow_initial_step);
+    cp_geometry_pass->BindUniform("DirSdwInitialStep");
 
-    cp_shader_rendering->SetUniform("DirSdwUserInterfaceWeight", dir_shadow_user_interface_weight);
-    cp_shader_rendering->BindUniform("DirSdwUserInterfaceWeight");
+    cp_geometry_pass->SetUniform("DirSdwUserInterfaceWeight", dir_shadow_user_interface_weight);
+    cp_geometry_pass->BindUniform("DirSdwUserInterfaceWeight");
 
-    cp_shader_rendering->SetUniform("DirSdwConeMaxDistance", dir_cone_max_distance);
-    cp_shader_rendering->BindUniform("DirSdwConeMaxDistance");
+    cp_geometry_pass->SetUniform("DirSdwConeMaxDistance", dir_cone_max_distance);
+    cp_geometry_pass->BindUniform("DirSdwConeMaxDistance");
 
-    cp_shader_rendering->SetUniform("LightCamForward", m_ext_rendering_parameters->GetBlinnPhongLightSourceCameraForward());
-    cp_shader_rendering->BindUniform("LightCamForward");
+    cp_geometry_pass->SetUniform("LightCamForward", m_ext_rendering_parameters->GetBlinnPhongLightSourceCameraForward());
+    cp_geometry_pass->BindUniform("LightCamForward");
 
-    cp_shader_rendering->SetUniform("TypeOfShadow", type_of_shadow);
-    cp_shader_rendering->BindUniform("TypeOfShadow");
+    cp_geometry_pass->SetUniform("TypeOfShadow", type_of_shadow);
+    cp_geometry_pass->BindUniform("TypeOfShadow");
   }
 
-  cp_shader_rendering->Bind();
+  cp_geometry_pass->Bind();
 
   // MULTISAMPLE
   if (IsPixelMultiScalingSupported() && GetCurrentMultiScalingMode() > 0)
   {
-    cp_shader_rendering->RecomputeNumberOfGroups(m_rdr_frame_to_screen.GetWidth(),
+    cp_geometry_pass->RecomputeNumberOfGroups(m_rdr_frame_to_screen.GetWidth(),
       m_rdr_frame_to_screen.GetHeight(), 0);
   }
   else
   {
-    cp_shader_rendering->RecomputeNumberOfGroups(m_ext_rendering_parameters->GetScreenWidth(),
+    cp_geometry_pass->RecomputeNumberOfGroups(m_ext_rendering_parameters->GetScreenWidth(),
       m_ext_rendering_parameters->GetScreenHeight(), 0);
   }
 
-  cp_shader_rendering->SetUniform("CameraEye", camera->GetEye());
-  cp_shader_rendering->BindUniform("CameraEye");
+  cp_geometry_pass->SetUniform("CameraEye", camera->GetEye());
+  cp_geometry_pass->BindUniform("CameraEye");
 
-  cp_shader_rendering->SetUniform("ViewMatrix", camera->LookAt());
-  cp_shader_rendering->BindUniform("ViewMatrix");
+  cp_geometry_pass->SetUniform("ViewMatrix", camera->LookAt());
+  cp_geometry_pass->BindUniform("ViewMatrix");
 
-  cp_shader_rendering->SetUniform("ProjectionMatrix", camera->Projection());
-  cp_shader_rendering->BindUniform("ProjectionMatrix");
+  cp_geometry_pass->SetUniform("ProjectionMatrix", camera->Projection());
+  cp_geometry_pass->BindUniform("ProjectionMatrix");
 
-  cp_shader_rendering->SetUniform("fov_y_tangent", (float)tan((camera->GetFovY() / 2.0) * glm::pi<double>() / 180.0));
-  cp_shader_rendering->BindUniform("fov_y_tangent");
+  cp_geometry_pass->SetUniform("fov_y_tangent", (float)tan((camera->GetFovY() / 2.0) * glm::pi<double>() / 180.0));
+  cp_geometry_pass->BindUniform("fov_y_tangent");
 
-  cp_shader_rendering->SetUniform("aspect_ratio", camera->GetAspectRatio());
-  cp_shader_rendering->BindUniform("aspect_ratio");
+  cp_geometry_pass->SetUniform("aspect_ratio", camera->GetAspectRatio());
+  cp_geometry_pass->BindUniform("aspect_ratio");
 
-  cp_shader_rendering->SetUniform("ApplyOcclusion", apply_ambient_occlusion ? 1 : 0);
-  cp_shader_rendering->BindUniform("ApplyOcclusion");
+  cp_geometry_pass->SetUniform("ApplyOcclusion", apply_ambient_occlusion ? 1 : 0);
+  cp_geometry_pass->BindUniform("ApplyOcclusion");
 
-  cp_shader_rendering->SetUniform("ApplyShadow", apply_directional_shadows ? 1 : 0);
-  cp_shader_rendering->BindUniform("ApplyShadow");
+  cp_geometry_pass->SetUniform("ApplyShadow", apply_directional_shadows ? 1 : 0);
+  cp_geometry_pass->BindUniform("ApplyShadow");
 
-  cp_shader_rendering->SetUniform("StepSize", m_u_step_size);
-  cp_shader_rendering->BindUniform("StepSize");
+  cp_geometry_pass->SetUniform("StepSize", m_u_step_size);
+  cp_geometry_pass->BindUniform("StepSize");
 
-  cp_shader_rendering->SetUniform("ApplyPhongShading", (m_apply_gradient_shading && m_ext_data_manager->GetCurrentGradientTexture()) ? 1 : 0);
-  cp_shader_rendering->BindUniform("ApplyPhongShading");
+  cp_geometry_pass->SetUniform("ApplyPhongShading", (m_apply_gradient_shading && m_ext_data_manager->GetCurrentGradientTexture()) ? 1 : 0);
+  cp_geometry_pass->BindUniform("ApplyPhongShading");
 
-  cp_shader_rendering->SetUniform("Kambient", m_ext_rendering_parameters->GetBlinnPhongKambient());
-  cp_shader_rendering->BindUniform("Kambient");
-  cp_shader_rendering->SetUniform("Kdiffuse", m_ext_rendering_parameters->GetBlinnPhongKdiffuse());
-  cp_shader_rendering->BindUniform("Kdiffuse");
-  cp_shader_rendering->SetUniform("Kspecular", m_ext_rendering_parameters->GetBlinnPhongKspecular());
-  cp_shader_rendering->BindUniform("Kspecular");
-  cp_shader_rendering->SetUniform("Nshininess", m_ext_rendering_parameters->GetBlinnPhongNshininess());
-  cp_shader_rendering->BindUniform("Nshininess");
+  cp_geometry_pass->SetUniform("Kambient", m_ext_rendering_parameters->GetBlinnPhongKambient());
+  cp_geometry_pass->BindUniform("Kambient");
+  cp_geometry_pass->SetUniform("Kdiffuse", m_ext_rendering_parameters->GetBlinnPhongKdiffuse());
+  cp_geometry_pass->BindUniform("Kdiffuse");
+  cp_geometry_pass->SetUniform("Kspecular", m_ext_rendering_parameters->GetBlinnPhongKspecular());
+  cp_geometry_pass->BindUniform("Kspecular");
+  cp_geometry_pass->SetUniform("Nshininess", m_ext_rendering_parameters->GetBlinnPhongNshininess());
+  cp_geometry_pass->BindUniform("Nshininess");
 
-  cp_shader_rendering->SetUniform("Ispecular", m_ext_rendering_parameters->GetLightSourceSpecular());
-  cp_shader_rendering->BindUniform("Ispecular");
+  cp_geometry_pass->SetUniform("Ispecular", m_ext_rendering_parameters->GetLightSourceSpecular());
+  cp_geometry_pass->BindUniform("Ispecular");
 
-  cp_shader_rendering->SetUniform("WorldEyePos", camera->GetEye());
-  cp_shader_rendering->BindUniform("WorldEyePos");
+  cp_geometry_pass->SetUniform("WorldEyePos", camera->GetEye());
+  cp_geometry_pass->BindUniform("WorldEyePos");
 
-  cp_shader_rendering->SetUniform("WorldLightingPos", m_ext_rendering_parameters->GetBlinnPhongLightingPosition());
-  cp_shader_rendering->BindUniform("WorldLightingPos");
+  cp_geometry_pass->SetUniform("WorldLightingPos", m_ext_rendering_parameters->GetBlinnPhongLightingPosition());
+  cp_geometry_pass->BindUniform("WorldLightingPos");
 
-  cp_shader_rendering->BindUniforms();
+  cp_geometry_pass->BindUniforms();
 
   gl::Shader::Unbind();
   gl::ExitOnGLError("RC1PConeTracingDirOcclusionShading: After Update.");
@@ -250,10 +250,10 @@ void RC1PExtinctionBasedShading::Redraw ()
 {
   m_rdr_frame_to_screen.ClearTexture();
 
-  cp_shader_rendering->Bind();
+  cp_geometry_pass->Bind();
   m_rdr_frame_to_screen.BindImageTexture();
 
-  cp_shader_rendering->Dispatch();
+  cp_geometry_pass->Dispatch();
   gl::ComputeShader::Unbind();
 
   m_rdr_frame_to_screen.Draw();
@@ -263,10 +263,10 @@ void RC1PExtinctionBasedShading::MultiSampleRedraw ()
 {
   m_rdr_frame_to_screen.ClearTexture();
 
-  cp_shader_rendering->Bind();
+  cp_geometry_pass->Bind();
   m_rdr_frame_to_screen.BindImageTexture();
 
-  cp_shader_rendering->Dispatch();
+  cp_geometry_pass->Dispatch();
   gl::ComputeShader::Unbind();
 
   m_rdr_frame_to_screen.DrawMultiSampleHigherResolutionMode();
@@ -276,10 +276,10 @@ void RC1PExtinctionBasedShading::DownScalingRedraw ()
 {
   m_rdr_frame_to_screen.ClearTexture();
 
-  cp_shader_rendering->Bind();
+  cp_geometry_pass->Bind();
   m_rdr_frame_to_screen.BindImageTexture();
 
-  cp_shader_rendering->Dispatch();
+  cp_geometry_pass->Dispatch();
   gl::ComputeShader::Unbind();
 
   m_rdr_frame_to_screen.DrawHigherResolutionWithDownScale();
@@ -289,10 +289,10 @@ void RC1PExtinctionBasedShading::UpScalingRedraw ()
 {
   m_rdr_frame_to_screen.ClearTexture();
 
-  cp_shader_rendering->Bind();
+  cp_geometry_pass->Bind();
   m_rdr_frame_to_screen.BindImageTexture();
 
-  cp_shader_rendering->Dispatch();
+  cp_geometry_pass->Dispatch();
   gl::ComputeShader::Unbind();
 
   m_rdr_frame_to_screen.DrawLowerResolutionWithUpScale();
@@ -313,13 +313,13 @@ void RC1PExtinctionBasedShading::SetImGuiComponents ()
     if (ImGui::Checkbox("Apply Gradient Shading", &m_apply_gradient_shading))
     {
       // Delete current uniform
-      cp_shader_rendering->ClearUniform("TexVolumeGradient");
+      cp_geometry_pass->ClearUniform("TexVolumeGradient");
 
       if (m_apply_gradient_shading && m_ext_data_manager->GetCurrentGradientTexture())
       {
-        cp_shader_rendering->Bind();
-        cp_shader_rendering->SetUniformTexture3D("TexVolumeGradient", m_ext_data_manager->GetCurrentGradientTexture()->GetTextureID(), 3);
-        cp_shader_rendering->BindUniform("TexVolumeGradient");
+        cp_geometry_pass->Bind();
+        cp_geometry_pass->SetUniformTexture3D("TexVolumeGradient", m_ext_data_manager->GetCurrentGradientTexture()->GetTextureID(), 3);
+        cp_geometry_pass->BindUniform("TexVolumeGradient");
         gl::ComputeShader::Unbind();
       }
       SetOutdated();
@@ -566,28 +566,28 @@ void RC1PExtinctionBasedShading::CreateRenderingPass ()
 
   glm::vec3 vol_aabb = vol_resolution * vol_voxelsize;
   
-  cp_shader_rendering = new gl::ComputeShader();
+  cp_geometry_pass = new gl::ComputeShader();
 
   if (m_pre_illum_str_vol.IsActive())
-    cp_shader_rendering->SetShaderFile(CPPVOLREND_DIR"structured/_common_shaders/obj_ray_marching.comp");
+    cp_geometry_pass->SetShaderFile(CPPVOLREND_DIR"structured/_common_shaders/obj_ray_marching.comp");
   else
-    cp_shader_rendering->SetShaderFile(CPPVOLREND_DIR"structured/rc1pextbsd/ebs_ray_bbox_marching.comp");
+    cp_geometry_pass->SetShaderFile(CPPVOLREND_DIR"structured/rc1pextbsd/ebs_ray_bbox_marching.comp");
   
-  cp_shader_rendering->LoadAndLink();
-  cp_shader_rendering->Bind();
+  cp_geometry_pass->LoadAndLink();
+  cp_geometry_pass->Bind();
 
-  cp_shader_rendering->SetUniform("VolumeScales", vol_voxelsize);
-  cp_shader_rendering->SetUniform("VolumeScaledSizes", vol_aabb);
+  cp_geometry_pass->SetUniform("VolumeScales", vol_voxelsize);
+  cp_geometry_pass->SetUniform("VolumeScaledSizes", vol_aabb);
 
   // Bind volume rendering textures
-  if (m_ext_data_manager->GetCurrentVolumeTexture()) cp_shader_rendering->SetUniformTexture3D("TexVolume", m_ext_data_manager->GetCurrentVolumeTexture()->GetTextureID(), 1);
-  if (m_glsl_transfer_function) cp_shader_rendering->SetUniformTexture1D("TexTransferFunc", m_glsl_transfer_function->GetTextureID(), 2);
+  if (m_ext_data_manager->GetCurrentVolumeTexture()) cp_geometry_pass->SetUniformTexture3D("TexVolume", m_ext_data_manager->GetCurrentVolumeTexture()->GetTextureID(), 1);
+  if (m_glsl_transfer_function) cp_geometry_pass->SetUniformTexture1D("TexTransferFunc", m_glsl_transfer_function->GetTextureID(), 2);
   if (m_apply_gradient_shading && m_ext_data_manager->GetCurrentGradientTexture())
-    cp_shader_rendering->SetUniformTexture3D("TexVolumeGradient", m_ext_data_manager->GetCurrentGradientTexture()->GetTextureID(), 3);
+    cp_geometry_pass->SetUniformTexture3D("TexVolumeGradient", m_ext_data_manager->GetCurrentGradientTexture()->GetTextureID(), 3);
 
-  cp_shader_rendering->BindUniforms();
+  cp_geometry_pass->BindUniforms();
 
-  cp_shader_rendering->Unbind();
+  cp_geometry_pass->Unbind();
 
   ////////////////////////////////////////////////
   // Object Space Mode
@@ -610,8 +610,8 @@ void RC1PExtinctionBasedShading::CreateRenderingPass ()
 
 void RC1PExtinctionBasedShading::DestroyRenderingShaders ()
 {
-  if (cp_shader_rendering != nullptr) delete cp_shader_rendering;
-  cp_shader_rendering = nullptr;
+  if (cp_geometry_pass != nullptr) delete cp_geometry_pass;
+  cp_geometry_pass = nullptr;
 }
 
 void RC1PExtinctionBasedShading::DestroySummedAreaTable ()

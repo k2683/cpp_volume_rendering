@@ -70,7 +70,7 @@ protected:
   gl::ComputeShader* cp_lightcache_shader;
   virtual void PreComputeLightCache (vis::Camera* camera);
 
-  gl::ComputeShader* cp_shader_rendering;
+  gl::ComputeShader* cp_geometry_pass;
 
   //////////////////////////////////////////
   // Extinction Coefficient Volume

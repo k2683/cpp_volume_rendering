@@ -80,7 +80,7 @@ protected:
   virtual void PreComputeLightCache (vis::Camera* camera);
 
   // rendering shader
-  gl::ComputeShader*  cp_shader_rendering;
+  gl::ComputeShader*  cp_geometry_pass;
 
 private:
   void CreateRenderingPass ();

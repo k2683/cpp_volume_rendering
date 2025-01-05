@@ -26,6 +26,10 @@
 #include "structured/rc1pdosct/dosrcrenderer.h"
 #include "structured/rc1pextbsd/ebsrenderer.h"
 #include "structured/rc1pvctsg/vctrenderer.h"
+#include "structured/rc1pisocustom/rc1custompisoadaptrenderer.h"
+#include "structured/rc1pisodfscustom/rc1custompisoadaptdfsrenderer.h"
+#include "structured/DeferredShading/DeferredShading.h"
+#include "structured/AdvancedDeferredShading/AdvancedDeferredShading.h"
 // Slice based
 #include "structured/sbtmdos/sbtmdosrenderer.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -63,6 +67,11 @@ int main (int argc, char **argv)
   RenderingManager::Instance()->AddVolumeRenderer(new RC1PConeTracingDirOcclusionShading());
   RenderingManager::Instance()->AddVolumeRenderer(new RC1PExtinctionBasedShading());
   RenderingManager::Instance()->AddVolumeRenderer(new RC1PVoxelConeTracingSGPU());
+  RenderingManager::Instance()->AddVolumeRenderer(new CustomRayCasting1PassIsoAdapt());
+  RenderingManager::Instance()->AddVolumeRenderer(new CustomRayCasting1PassIsodfsAdapt());
+  RenderingManager::Instance()->AddVolumeRenderer(new DeferredShading());
+  RenderingManager::Instance()->AddVolumeRenderer(new AdvancedDeferredShading());
+
   //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
   // Slice based
   RenderingManager::Instance()->AddVolumeRenderer(new SBTMDirectionalOcclusionShading());

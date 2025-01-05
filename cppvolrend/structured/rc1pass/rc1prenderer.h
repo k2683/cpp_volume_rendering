@@ -70,7 +70,7 @@ private:
   
   gl::Texture1D* m_glsl_transfer_function;
 
-  gl::ComputeShader*  cp_shader_rendering;
+  gl::ComputeShader*  cp_geometry_pass;
 
 
   bool m_apply_gradient_shading;

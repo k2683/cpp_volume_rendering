@@ -1,0 +1,44 @@
+﻿  Building Custom Rule E:/cpp_volume_rendering/libs/gl_utils/CMakeLists.txt
+  cube.cpp
+  grid.cpp
+  arrayobject.cpp
+  bufferobject.cpp
+  camera.cpp
+  computeshader.cpp
+E:\cpp_volume_rendering\libs\math_utils/matrix4.h(58,21): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\math_utils/matrix4.h(59,21): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\gl_utils\computeshader.cpp(109,26): warning C4244: “=”: 从“float”转换到“GLuint”，可能丢失数据
+E:\cpp_volume_rendering\libs\gl_utils\computeshader.cpp(113,26): warning C4244: “=”: 从“float”转换到“GLuint”，可能丢失数据
+E:\cpp_volume_rendering\libs\gl_utils\computeshader.cpp(117,26): warning C4244: “=”: 从“float”转换到“GLuint”，可能丢失数据
+  framebufferobject.cpp
+E:\cpp_volume_rendering\libs\gl_utils\framebufferobject.cpp(26,69): warning C4018: “>”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\gl_utils\framebufferobject.cpp(53,23): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\gl_utils\framebufferobject.cpp(82,23): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\gl_utils\framebufferobject.cpp(112,23): warning C4018: “<”: 有符号/无符号不匹配
+  pipelineshader.cpp
+E:\cpp_volume_rendering\libs\math_utils/matrix4.h(58,21): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\math_utils/matrix4.h(59,21): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+  stackmatrix.cpp
+E:\cpp_volume_rendering\libs\gl_utils\stackmatrix.cpp(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  texture1d.cpp
+  texture2d.cpp
+  texture3d.cpp
+E:\cpp_volume_rendering\libs\gl_utils\texture3d.cpp(25,5): warning C4018: “<=”: 有符号/无符号不匹配
+E:\cpp_volume_rendering\libs\gl_utils\texture3d.cpp(37,5): warning C4018: “<=”: 有符号/无符号不匹配
+  shader.cpp
+E:\cpp_volume_rendering\libs\math_utils/matrix4.h(58,21): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\math_utils/matrix4.h(59,21): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+E:\cpp_volume_rendering\libs\gl_utils\shader.cpp(406,32): warning C4267: “=”: 从“size_t”转换到“GLuint”，可能丢失数据
+E:\cpp_volume_rendering\libs\gl_utils\shader.cpp(675,32): warning C4267: “=”: 从“size_t”转换到“GLuint”，可能丢失数据
+E:\cpp_volume_rendering\libs\gl_utils\shader.cpp(715,32): warning C4267: “=”: 从“size_t”转换到“GLuint”，可能丢失数据
+  timer.cpp
+  utils.cpp
+E:\cpp_volume_rendering\libs\gl_utils\utils.cpp(155,39): warning C4996: 'std::codecvt_utf8<wchar_t,1114111,(std::codecvt_mode)0>': warning STL4017: std::wbuffer_convert, std::wstring_convert, and the <codecvt> header (containing std::codecvt_mode, std::codecvt_utf8, std::codecvt_utf16, and std::codecvt_utf8_utf16) are deprecated in C++17. (The std::codecvt class template is NOT deprecated.) The C++ Standard doesn't provide equivalent non-deprecated functionality; consider using MultiByteToWideChar() and WideCharToMultiByte() from <Windows.h> instead. You can define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING or _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS to acknowledge that you have received this warning.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\codecvt(33,52): message : 参见“std::codecvt_utf8”的声明
+E:\cpp_volume_rendering\libs\gl_utils\utils.cpp(155,18): warning C4996: 'std::wstring_convert<std::codecvt_utf8<wchar_t,1114111,(std::codecvt_mode)0>,wchar_t,std::allocator<wchar_t>,std::allocator<char>>': warning STL4017: std::wbuffer_convert, std::wstring_convert, and the <codecvt> header (containing std::codecvt_mode, std::codecvt_utf8, std::codecvt_utf16, and std::codecvt_utf8_utf16) are deprecated in C++17. (The std::codecvt class template is NOT deprecated.) The C++ Standard doesn't provide equivalent non-deprecated functionality; consider using MultiByteToWideChar() and WideCharToMultiByte() from <Windows.h> instead. You can define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING or _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS to acknowledge that you have received this warning.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xlocbuf(300,55): message : 参见“std::wstring_convert”的声明
+E:\cpp_volume_rendering\libs\gl_utils\utils.cpp(155,62): warning C4996: 'std::wstring_convert<std::codecvt_utf8<wchar_t,1114111,(std::codecvt_mode)0>,wchar_t,std::allocator<wchar_t>,std::allocator<char>>::wstring_convert': warning STL4017: std::wbuffer_convert, std::wstring_convert, and the <codecvt> header (containing std::codecvt_mode, std::codecvt_utf8, std::codecvt_utf16, and std::codecvt_utf8_utf16) are deprecated in C++17. (The std::codecvt class template is NOT deprecated.) The C++ Standard doesn't provide equivalent non-deprecated functionality; consider using MultiByteToWideChar() and WideCharToMultiByte() from <Windows.h> instead. You can define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING or _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS to acknowledge that you have received this warning.
+E:\cpp_volume_rendering\libs\gl_utils\utils.cpp(156,25): warning C4996: 'std::wstring_convert<std::codecvt_utf8<wchar_t,1114111,(std::codecvt_mode)0>,wchar_t,std::allocator<wchar_t>,std::allocator<char>>::from_bytes': warning STL4017: std::wbuffer_convert, std::wstring_convert, and the <codecvt> header (containing std::codecvt_mode, std::codecvt_utf8, std::codecvt_utf16, and std::codecvt_utf8_utf16) are deprecated in C++17. (The std::codecvt class template is NOT deprecated.) The C++ Standard doesn't provide equivalent non-deprecated functionality; consider using MultiByteToWideChar() and WideCharToMultiByte() from <Windows.h> instead. You can define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING or _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS to acknowledge that you have received this warning.
+E:\cpp_volume_rendering\libs\gl_utils\utils.cpp(159,36): warning C4101: “exception”: 未引用的局部变量
+  正在生成代码...
+  gl_utils.vcxproj -> E:\cpp_volume_rendering\bin\Debug\gl_utils.lib

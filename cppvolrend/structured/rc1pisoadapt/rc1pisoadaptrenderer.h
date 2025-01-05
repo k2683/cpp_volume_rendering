@@ -27,7 +27,6 @@ public:
   virtual void FillParameterSpace(ParameterSpace& pspace) override;
 
   virtual void SetImGuiComponents();
-
 protected:
   float m_u_isovalue;
 
@@ -45,7 +44,7 @@ protected:
   bool m_apply_gradient_shading;
 
 private:
-  gl::ComputeShader* cp_shader_rendering;
+  gl::ComputeShader* cp_geometry_pass;
 
 };
 

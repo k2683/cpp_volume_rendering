@@ -1,0 +1,10 @@
+^E:\CPP_VOLUME_RENDERING\BUILD\CMAKEFILES\AF89A1964B461A5214145F924E2B5F31\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SE:/cpp_volume_rendering -BE:/cpp_volume_rendering/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file E:/cpp_volume_rendering/build/dev_vs.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
