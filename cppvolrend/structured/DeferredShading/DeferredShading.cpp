@@ -473,6 +473,7 @@ void DeferredShading::UpdateGeometryPassUniforms(vis::Camera* camera) {
 }
 void DeferredShading::UpdateLightingPassUniforms(vis::Camera* camera) {
     // 设置光照相关参数
+    cp_lighting_pass->SetUniform("objectColor", m_u_color);  // 添加这一行
     cp_lighting_pass->SetUniform("Ka", m_ext_rendering_parameters->GetBlinnPhongKambient());
     cp_lighting_pass->SetUniform("Kd", m_ext_rendering_parameters->GetBlinnPhongKdiffuse());
     cp_lighting_pass->SetUniform("Ks", m_ext_rendering_parameters->GetBlinnPhongKspecular());

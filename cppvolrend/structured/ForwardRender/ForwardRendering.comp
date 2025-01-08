@@ -1,0 +1,277 @@
+#version 430
+
+layout (binding = 1) uniform sampler3D TexVolume; 
+
+layout(binding = 3) uniform sampler3D TexBlockMin;
+layout(binding = 4) uniform sampler3D TexBlockMax;
+uniform vec3 VolumeGridResolution;
+uniform vec3 VolumeVoxelSize;
+uniform vec3 VolumeGridSize;
+uniform vec3 numBlocks;
+
+uniform vec3 CameraEye;
+
+uniform mat4 u_CameraLookAt;
+uniform mat4 ProjectionMatrix;
+
+uniform float u_TanCameraFovY;
+uniform float u_CameraAspectRatio;
+
+uniform float Isovalue;
+uniform float StepSizeSmall;
+uniform float StepSizeLarge;
+uniform float StepSizeRange;
+uniform vec4 Color;
+
+uniform int ApplyGradientPhongShading;
+
+uniform vec3 VolumeScales;
+
+uniform float BlinnPhongKa ;
+uniform float BlinnPhongKd  ;
+uniform float BlinnPhongKs;
+uniform float BlinnPhongShininess;
+
+uniform vec3 BlinnPhongIspecular;
+
+uniform vec3 WorldEyePos;
+uniform vec3 LightSourcePosition;
+
+layout (local_size_x = 8, local_size_y = 8, local_size_z = 1) in;
+layout (rgba16f, binding = 0) uniform image2D OutputFrag;
+
+//LIGHT TEST
+#define MAX_LIGHTS 20
+const vec3 LightPositions[MAX_LIGHTS] = vec3[MAX_LIGHTS](
+    vec3(1.0, 2.0, 3.0),  // 光源 1
+    vec3(-2.0, 1.5, 0.0), // 光源 2
+    vec3(0.0, 5.0, -1.0), // 光源 3
+    vec3(2.5, 3.5, 4.0),  // 光源 4
+    vec3(-3.0, -2.0, 1.0), // 光源 5
+    vec3(1.0, -3.0, 2.0), // 光源 6
+    vec3(4.0, 0.0, -2.0), // 光源 7
+    vec3(0.0, 3.0, 5.0),  // 光源 8
+    vec3(-1.5, -1.5, 4.0), // 光源 9
+    vec3(2.0, 2.0, -4.0), // 光源 10
+    vec3(-2.5, 4.0, 3.0), // 光源 11
+    vec3(1.0, 1.0, -3.0), // 光源 12
+    vec3(-4.0, 3.0, 1.0), // 光源 13
+    vec3(0.5, -2.0, 0.5), // 光源 14
+    vec3(3.0, 3.0, 3.0),  // 光源 15
+    vec3(-1.0, 0.0, 4.0), // 光源 16
+    vec3(2.0, -3.0, 1.0), // 光源 17
+    vec3(0.0, 4.0, -2.0), // 光源 18
+    vec3(-3.5, -3.5, 0.0), // 光源 19
+    vec3(5.0, 0.0, 0.0)   // 光源 20
+);
+
+const vec3 LightColors[MAX_LIGHTS] = vec3[MAX_LIGHTS](
+    vec3(1.0, 1.0, 1.0),  // 白光
+    vec3(1.0, 0.8, 0.6),  // 温暖的白光
+    vec3(0.6, 0.8, 1.0),  // 冷光
+    vec3(1.0, 0.0, 0.0),  // 红光
+    vec3(0.0, 1.0, 0.0),  // 绿光
+    vec3(0.0, 0.0, 1.0),  // 蓝光
+    vec3(1.0, 1.0, 0.0),  // 黄光
+    vec3(0.0, 1.0, 1.0),  // 青光
+    vec3(1.0, 0.0, 1.0),  // 紫光
+    vec3(0.8, 0.5, 0.3),  // 浓郁的橙光
+    vec3(0.5, 0.5, 0.5),  // 灰光
+    vec3(0.8, 0.3, 0.5),  // 浓郁的粉红光
+    vec3(0.3, 0.7, 0.9),  // 淡蓝光
+    vec3(0.7, 0.9, 0.3),  // 淡绿光
+    vec3(0.9, 0.3, 0.7),  // 淡紫光
+    vec3(0.9, 0.9, 0.3),  // 淡黄光
+    vec3(0.3, 0.9, 0.9),  // 淡青光
+    vec3(0.9, 0.3, 0.3),  // 淡红光
+    vec3(0.5, 0.2, 0.1),  // 暗橙光
+    vec3(0.1, 0.1, 0.1)   // 极暗的灰光
+);
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// From structured/_common_shaders/ray_bbox_intersection.comp
+struct Ray { vec3 Origin; vec3 Dir; };
+bool RayAABBIntersection (vec3 vert_eye, vec3 vert_dir, vec3 vol_scaled_dim,
+                          out Ray r, out float rtnear, out float rtfar);
+
+vec3 CalculateGradient(vec3 pos) {
+    const float h = 1.0;  // 采样步长
+    vec3 gradient;
+    
+    // 计算x方向偏导数
+    float x1 = texture(TexVolume, (pos + vec3(h,0,0)) / VolumeGridSize).r;
+    float x2 = texture(TexVolume, (pos - vec3(h,0,0)) / VolumeGridSize).r;
+    gradient.x = (x1 - x2) / (2.0 * h);
+    
+    // 计算y方向偏导数
+    float y1 = texture(TexVolume, (pos + vec3(0,h,0)) / VolumeGridSize).r;
+    float y2 = texture(TexVolume, (pos - vec3(0,h,0)) / VolumeGridSize).r;
+    gradient.y = (y1 - y2) / (2.0 * h);
+    
+    // 计算z方向偏导数
+    float z1 = texture(TexVolume, (pos + vec3(0,0,h)) / VolumeGridSize).r;
+    float z2 = texture(TexVolume, (pos - vec3(0,0,h)) / VolumeGridSize).r;
+    gradient.z = (z1 - z2) / (2.0 * h);
+    
+    return normalize(gradient);
+}
+vec3 ShadeBlinnPhong(vec3 Tpos, vec3 clr) {
+    vec3 N = CalculateGradient(Tpos);
+    
+    // 检查法线是否有效
+    if (length(N) < 0.0001) 
+        return clr;
+        
+    // 转换到世界空间
+    vec3 Wpos = Tpos - (VolumeGridSize * 0.5);
+    
+    // 计算基本光照向量
+    vec3 L = normalize(LightSourcePosition - Wpos);
+    vec3 V = normalize(CameraEye - Wpos);
+    vec3 H = normalize(L + V);
+    
+    // 计算光照分量
+    float NdotL = max(dot(N, L), 0.0);
+    float NdotH = max(dot(N, H), 0.0);
+    
+    // 计算Blinn-Phong光照模型的三个分量
+    vec3 ambient = clr * BlinnPhongKa;
+    vec3 diffuse = clr * BlinnPhongKd * NdotL;
+    vec3 specular = BlinnPhongIspecular * BlinnPhongKs * pow(NdotH, BlinnPhongShininess);
+    
+    return ambient + diffuse + specular;
+}
+
+// Get block boundaries in world space
+void getBlockBounds(ivec3 blockIdx, out vec3 blockMin, out vec3 blockMax) {
+    vec3 blockSize = VolumeGridSize / numBlocks;
+    blockMin = -VolumeGridSize * 0.5 + blockSize * vec3(blockIdx);
+    blockMax = blockMin + blockSize;
+}
+float calculateNextBlockIntersection(vec3 rayOrigin, vec3 rayDir, ivec3 currentBlock, out ivec3 nextBlock) {
+    vec3 rayDirRecip;
+    rayDirRecip.x = abs(rayDir.x) > 1e-6 ? 1.0/rayDir.x : sign(rayDir.x) * 1e6;
+    rayDirRecip.y = abs(rayDir.y) > 1e-6 ? 1.0/rayDir.y : sign(rayDir.y) * 1e6;
+    rayDirRecip.z = abs(rayDir.z) > 1e-6 ? 1.0/rayDir.z : sign(rayDir.z) * 1e6;
+    
+    vec3 blockMin, blockMax;
+    getBlockBounds(currentBlock, blockMin, blockMax);
+    
+    vec3 t1 = (blockMin - rayOrigin) * rayDirRecip;
+    vec3 t2 = (blockMax - rayOrigin) * rayDirRecip;
+    
+    vec3 tMin = min(t1, t2);
+    vec3 tMax = max(t1, t2);
+    
+    float exitT = min(min(tMax.x, tMax.y), tMax.z);
+    
+    nextBlock = currentBlock;
+    
+    const float offset = 1e-4;
+    if(abs(exitT - tMax.x) < 1e-5) {
+        nextBlock.x += rayDir.x > 0.0 ? 1 : -1;
+        exitT += offset;
+    }
+    if(abs(exitT - tMax.y) < 1e-5) {
+        nextBlock.y += rayDir.y > 0.0 ? 1 : -1;
+        exitT += offset;
+    }
+    if(abs(exitT - tMax.z) < 1e-5) {
+        nextBlock.z += rayDir.z > 0.0 ? 1 : -1;
+        exitT += offset;
+    }
+    
+    return exitT;
+}bool isValidBlock(ivec3 blockIdx) {
+    return all(greaterThanEqual(blockIdx, ivec3(0))) && 
+           all(lessThan(blockIdx, ivec3(numBlocks)));
+}
+bool isBlockSkippable(float blockMin, float blockMax, float isoValue) {
+    // 添加一个小的容差，避免在边界处错过等值面
+    //const float epsilon = 0.001; // 容差值可以根据需要调整
+    const float epsilon = 0.001;
+    return (isoValue < blockMin - epsilon || isoValue > blockMax + epsilon);
+
+}
+
+ivec3 getBlockIndex(vec3 pos) {
+    vec3 normalizedPos = (pos + (VolumeGridSize * 0.5)) / VolumeGridSize;
+    return ivec3(floor(normalizedPos * numBlocks));
+}
+
+void main() {
+    ivec2 storePos = ivec2(gl_GlobalInvocationID.xy);
+    
+    ivec2 size = imageSize(OutputFrag);
+    if (storePos.x >= size.x || storePos.y >= size.y)
+        return;
+        
+    vec2 fpos = vec2(storePos) + 0.5;
+    vec3 VerPos = (vec3(fpos.x / float(size.x), fpos.y / float(size.y), 0.0) * 2.0) - 1.0;
+    vec3 camera_dir = normalize(vec3(VerPos.x * u_TanCameraFovY * u_CameraAspectRatio, 
+                                   VerPos.y * u_TanCameraFovY, -1.0) * mat3(u_CameraLookAt));
+
+    Ray r;
+    float tnear, tfar;
+    bool inbox = RayAABBIntersection(CameraEye, camera_dir, VolumeGridSize, r, tnear, tfar);
+
+    if (!inbox) {
+        imageStore(OutputFrag, storePos, vec4(0.0));
+        return;
+    }
+
+    float t = tnear;
+    vec4 dst = vec4(0.0);
+    vec3 prevTexPos = r.Origin + r.Dir * t + (VolumeGridSize * 0.5);
+    float prevDensity = texture(TexVolume, prevTexPos / VolumeGridSize).r;
+
+    while(t < tfar) {
+        ivec3 blockIndex = getBlockIndex(r.Origin + t*r.Dir);
+        vec3 blockCoord = (vec3(blockIndex) + 0.5) / numBlocks;
+        float blockMin = texture(TexBlockMin, blockCoord).r;
+        float blockMax = texture(TexBlockMax, blockCoord).r;
+        
+        if(isBlockSkippable(blockMin, blockMax, Isovalue)) {
+            ivec3 nextBlock;
+            float exitT = calculateNextBlockIntersection(r.Origin + t*r.Dir, r.Dir, blockIndex, nextBlock);
+            float stepSize = max(StepSizeSmall, exitT);
+            t += stepSize;
+            vec3 newPos = r.Origin + r.Dir * t + (VolumeGridSize * 0.5);
+            prevDensity = texture(TexVolume, newPos / VolumeGridSize).r;
+            continue;
+        }
+        
+        vec3 currentPos = r.Origin + r.Dir * t + (VolumeGridSize * 0.5);
+        float currentDensity = texture(TexVolume, currentPos / VolumeGridSize).r;
+        
+        float distToIso = abs(currentDensity - Isovalue);
+        float adaptiveStepSize = distToIso < StepSizeRange ? 
+                                StepSizeSmall : 
+                                min(StepSizeLarge, length(VolumeGridSize / numBlocks) * 0.5);
+        
+        float h = min(adaptiveStepSize, tfar - t);
+        prevDensity = currentDensity;
+        t += h;
+        
+        vec3 newPos = r.Origin + r.Dir * t + (VolumeGridSize * 0.5);
+        float density = texture(TexVolume, newPos / VolumeGridSize).r;
+        
+        if((prevDensity <= Isovalue && Isovalue < density) ||
+           (prevDensity >= Isovalue && Isovalue > density)) {
+            float tt = (Isovalue - prevDensity) / (density - prevDensity);
+            t = t - h * (1.0 - tt);
+            
+            vec3 s_tex_pos = r.Origin + r.Dir * t + (VolumeGridSize * 0.5);
+            
+            vec4 src = Color;
+            src.rgb = ShadeBlinnPhong(s_tex_pos, src.rgb);
+            
+            src.rgb = src.rgb * src.a;
+            dst = dst + (1.0 - dst.a) * src;
+            
+            if(dst.a > 0.99) 
+                break;
+        }
+    }
+
+    imageStore(OutputFrag, storePos, dst);
+}

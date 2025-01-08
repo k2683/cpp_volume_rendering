@@ -30,6 +30,7 @@
 #include "structured/rc1pisodfscustom/rc1custompisoadaptdfsrenderer.h"
 #include "structured/DeferredShading/DeferredShading.h"
 #include "structured/AdvancedDeferredShading/AdvancedDeferredShading.h"
+#include "structured/ForwardRender/FowardRendering.h"
 // Slice based
 #include "structured/sbtmdos/sbtmdosrenderer.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -71,6 +72,7 @@ int main (int argc, char **argv)
   RenderingManager::Instance()->AddVolumeRenderer(new CustomRayCasting1PassIsodfsAdapt());
   RenderingManager::Instance()->AddVolumeRenderer(new DeferredShading());
   RenderingManager::Instance()->AddVolumeRenderer(new AdvancedDeferredShading());
+  RenderingManager::Instance()->AddVolumeRenderer(new FowardRendering());
 
   //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
   // Slice based

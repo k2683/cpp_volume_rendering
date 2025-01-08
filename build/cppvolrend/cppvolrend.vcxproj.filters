@@ -86,6 +86,7 @@
     <ClCompile Include="..\..\cppvolrend\structured\rc1pisodfscustom\rc1custompisoadaptdfsrenderer.cpp" />
     <ClCompile Include="..\..\cppvolrend\structured\DeferredShading\DeferredShading.cpp" />
     <ClCompile Include="..\..\cppvolrend\structured\AdvancedDeferredShading\AdvancedDeferredShading.cpp" />
+    <ClCompile Include="..\..\cppvolrend\structured\ForwardRender\FowardRendering.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="E:\cpp_volume_rendering\cppvolrend\defines.h">

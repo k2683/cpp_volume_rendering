@@ -161,6 +161,9 @@ public:
     float s;    //饱和度
     float v;    //亮度
     GLuint gCurvatureDebug;
+    float m_current_time;  // 跟踪时间
+    float m_start_time;    // 记录开始时间
+
 };
 
 

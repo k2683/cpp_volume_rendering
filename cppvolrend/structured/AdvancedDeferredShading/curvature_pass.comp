@@ -17,55 +17,51 @@ uniform mat4 ProjectionMatrix;
 // 计算形状算子函数
 mat3 computeShapeOperator(vec3 position, vec3 normal, ivec2 coord) {
     // 1. 计算局部坐标系（切向量）
-    vec3 tangent1 = normalize(cross(abs(normal.x) < abs(normal.y) ? 
-                             vec3(1.0, 0.0, 0.0) : vec3(0.0, 1.0, 0.0), normal));
-    vec3 tangent2 = normalize(cross(normal, tangent1));
+    vec3 tangent1 = vec3(0.0);
+    vec3 tangent2 = vec3(0.0);
+
+    if (abs(normal.x) < abs(normal.y)) {
+        tangent1 = normalize(cross(vec3(1.0, 0.0, 0.0), normal));
+    } else {
+        tangent1 = normalize(cross(vec3(0.0, 1.0, 0.0), normal));
+    }
+    tangent2 = normalize(cross(normal, tangent1));
 
     // 2. 获取屏幕空间的 texel 大小
-    vec2 texelSize = 1.0 / vec2(textureSize(gNormal, 0));
-    float h = 1.0; // 采样步长
+    vec2 texelSize = 1.0 / vec2(textureSize(gNormal, 0)); // 屏幕空间每像素偏移量
 
-    // 获取当前位置的法线
-    vec3 n = normalize(texture(gNormal, (vec2(coord) + 0.5) * texelSize).xyz);
-    
-    // 采样相邻像素的法线并确保正确的归一化
-    vec2 uv = (vec2(coord) + 0.5) * texelSize;
-    vec3 nRight = normalize(texture(gNormal, uv + vec2(h * texelSize.x, 0.0)).xyz);
-    vec3 nLeft = normalize(texture(gNormal, uv - vec2(h * texelSize.x, 0.0)).xyz);
-    vec3 nTop = normalize(texture(gNormal, uv + vec2(0.0, h * texelSize.y)).xyz);
-    vec3 nBottom = normalize(texture(gNormal, uv - vec2(0.0, h * texelSize.y)).xyz);
+    // 3. 采样相邻像素的法线
+    vec2 uv = (vec2(coord) + 0.5) * texelSize; // 当前像素的中心纹理坐标
 
-    // 使用中心差分计算法线的偏导数，并进行尺度归一化
-    vec3 dNdx = (nRight - nLeft) / (2.0 * h * texelSize.x);
-    vec3 dNdy = (nTop - nBottom) / (2.0 * h * texelSize.y);
+    vec3 nRight  = normalize(texture(gNormal, uv + vec2(texelSize.x, 0.0)).xyz);
+    vec3 nLeft   = normalize(texture(gNormal, uv - vec2(texelSize.x, 0.0)).xyz);
+    vec3 nTop    = normalize(texture(gNormal, uv + vec2(0.0, texelSize.y)).xyz);
+    vec3 nBottom = normalize(texture(gNormal, uv - vec2(0.0, texelSize.y)).xyz);
 
-    // 关键修改：对偏导数进行适当的缩放
-    float scale = 0.1; // 调整这个系数以获得合适的曲率值
-    dNdx *= scale;
-    dNdy *= scale;
+    // 4. 计算法线的偏导数
+    vec3 dNdx = (nRight - nLeft) / (2.0 * texelSize.x);
+    vec3 dNdy = (nTop - nBottom) / (2.0 * texelSize.y);
 
-    // 构建切空间的投影矩阵
+    // 5. 构建切空间的投影矩阵
     mat3 P = mat3(
         1.0 - normal.x * normal.x, -normal.x * normal.y, -normal.x * normal.z,
         -normal.y * normal.x, 1.0 - normal.y * normal.y, -normal.y * normal.z,
         -normal.z * normal.x, -normal.z * normal.y, 1.0 - normal.z * normal.z
     );
 
-    // 构建法线导数矩阵
+    // 6. 计算形状算子矩阵 S = -dN/dx * P
     mat3 dN = mat3(
         dNdx.x, dNdy.x, 0.0,
         dNdx.y, dNdy.y, 0.0,
         dNdx.z, dNdy.z, 0.0
     );
 
-    // 计算形状算子
     return -dN * P;
 }
 
 // 计算主曲率
 void computePrincipalCurvatures(mat3 shapeOperator, vec3 normal, 
-                               out float k1, out float k2, 
-                               out vec3 dir1, out float debugDet, out float debugTrace) {
+                               out float k1, out float k2, out vec3 dir1,out float debugDet,out float debugTrace) {
     // 构建切空间中的2x2矩阵
     vec3 tangent1, tangent2;
     if (abs(normal.x) < abs(normal.y)) {
@@ -74,38 +70,27 @@ void computePrincipalCurvatures(mat3 shapeOperator, vec3 normal,
         tangent1 = normalize(cross(vec3(0.0, 1.0, 0.0), normal));
     }
     tangent2 = normalize(cross(normal, tangent1));
-
+    
     // 提取2x2矩阵
     mat2 A;
     A[0][0] = dot(tangent1, shapeOperator * tangent1);
     A[0][1] = dot(tangent1, shapeOperator * tangent2);
     A[1][0] = dot(tangent2, shapeOperator * tangent1);
     A[1][1] = dot(tangent2, shapeOperator * tangent2);
-
-    // 引入阈值限制以避免数值不稳定
-    float epsilon = 1e-6;
-    A[0][0] = clamp(A[0][0], -1.0, 1.0);
-    A[0][1] = clamp(A[0][1], -1.0, 1.0);
-    A[1][0] = clamp(A[1][0], -1.0, 1.0);
-    A[1][1] = clamp(A[1][1], -1.0, 1.0);
-
-    // 计算特征值
+    
+    // 计算特征值（主曲率）
     float trace = A[0][0] + A[1][1];
     float det = A[0][0] * A[1][1] - A[0][1] * A[1][0];
-    float discriminant = max(0.0, trace * trace / 4.0 - det);
+    float discriminant = sqrt(trace * trace / 4.0 - det);
+    
     
     debugDet = det;
     debugTrace = trace;
     
-    k1 = (trace / 2.0 + sqrt(discriminant));
-    k2 = (trace / 2.0 - sqrt(discriminant));
+    k1 = trace / 2.0 + discriminant;
+    k2 = trace / 2.0 - discriminant;
     
-    // 限制主曲率值的范围
-    float maxCurvature = 2.0;
-    k1 = clamp(k1, -maxCurvature, maxCurvature);
-    k2 = clamp(k2, -maxCurvature, maxCurvature);
-    
-    // 计算主曲率方向
+    // 计算最大主曲率方向
     float theta = atan(A[0][1], k1 - A[0][0]);
     dir1 = cos(theta) * tangent1 + sin(theta) * tangent2;
 }

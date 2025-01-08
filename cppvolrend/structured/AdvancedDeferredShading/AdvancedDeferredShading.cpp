@@ -127,6 +127,9 @@ AdvancedDeferredShading::AdvancedDeferredShading()
     , m_u_step_size_range(0.1f)
     , m_u_color(0.66f, 0.6f, 0.05f, 1.0f)
     , m_apply_gradient_shading(false)
+    , m_current_time(0.0f)
+    //, m_start_time(0.0f)
+
 {
     // 保持其他初始化不变
 }
@@ -139,7 +142,7 @@ AdvancedDeferredShading::~AdvancedDeferredShading()
 
 const char* AdvancedDeferredShading::GetName()
 {
-    return "Deferred Rendering";
+    return "Advanced Deferred Rendering";
 }
 
 
@@ -296,7 +299,9 @@ void AdvancedDeferredShading::CreateTransferFunctions() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
+    // 修改 ridgeValleyMap 的纹理参数
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);  // 改为 REPEAT
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);  // 改为 REPEAT
     // 3. 创建噪声纹理
     const int noiseSize = 256;
     std::vector<float> noise(noiseSize * noiseSize);
@@ -365,7 +370,7 @@ void AdvancedDeferredShading::LightingPass(vis::Camera* camera) {
     // 更新着色参数
     cp_lighting_pass->SetUniform("viewPos", mycamera->GetEye());
     cp_lighting_pass->SetUniform("lightPos", m_ext_rendering_parameters->GetBlinnPhongLightingPosition());
-    cp_lighting_pass->SetUniform("time", float(glfwGetTime()));
+    cp_lighting_pass->SetUniform("time", m_current_time);
     cp_lighting_pass->SetUniform("flowSpeed", m_flow_speed);
     cp_lighting_pass->SetUniform("flowScale", m_flow_scale);
     cp_lighting_pass->SetUniform("showRidges", m_show_ridges);
@@ -466,6 +471,12 @@ void AdvancedDeferredShading::InitQuad() {
     glBindVertexArray(0);
 }
 void AdvancedDeferredShading::RenderQuad() {
+    // 获取实际的渲染尺寸
+    int width = m_ext_rendering_parameters->GetScreenWidth();
+    int height = m_ext_rendering_parameters->GetScreenHeight();
+
+    // 设置正确的视口
+    glViewport(0, 0, width, height);
     // 绑定最终渲染的顶点数组
     glBindVertexArray(m_quad_vao);
 
@@ -489,6 +500,12 @@ void AdvancedDeferredShading::RenderQuad() {
 
 void AdvancedDeferredShading::CurvaturePass() {
     cp_curvature_pass->Bind();
+
+    // 1) 保证对所有像素进行计算
+    int width = m_ext_rendering_parameters->GetScreenWidth();
+    int height = m_ext_rendering_parameters->GetScreenHeight();
+    cp_curvature_pass->RecomputeNumberOfGroups(width, height, 1);
+
 
     // 设置输入纹理
     glActiveTexture(GL_TEXTURE0);
@@ -642,6 +659,8 @@ void AdvancedDeferredShading::ReloadShaders()
 }
 
 void AdvancedDeferredShading::UpdateGeometryPassUniforms(vis::Camera* camera) {
+    //m_current_time += 0.016f;  // 假设 60fps，每帧约16ms
+
     // 设置相机参数
     cp_geometry_pass->SetUniform("CameraEye", camera->GetEye());
     cp_geometry_pass->SetUniform("u_CameraLookAt", camera->LookAt());
@@ -670,9 +689,11 @@ void AdvancedDeferredShading::UpdateGeometryPassUniforms(vis::Camera* camera) {
 }
 void AdvancedDeferredShading::UpdateLightingPassUniforms(vis::Camera* camera) {
     // 设置光照相关参数
+    cp_lighting_pass->SetUniform("objectColor", m_u_color);  // 添加这一行
     cp_lighting_pass->SetUniform("LightSourcePosition", m_ext_rendering_parameters->GetBlinnPhongLightingPosition());
     cp_lighting_pass->SetUniform("CameraEye", camera->GetEye());
     cp_geometry_pass->SetUniform("ProjectionMatrix", camera->Projection());
+    cp_lighting_pass->SetUniform("time", m_current_time);
 
 }
 bool AdvancedDeferredShading::Update(vis::Camera* camera)
@@ -696,6 +717,8 @@ bool AdvancedDeferredShading::Update(vis::Camera* camera)
     return true;
 }
 void AdvancedDeferredShading::Redraw() {
+
+
     // 1. 几何Pass
     glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);  // 设置清除颜色为白色
@@ -708,7 +731,6 @@ void AdvancedDeferredShading::Redraw() {
     cp_geometry_pass->Dispatch();
     glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
     gl::ComputeShader::Unbind();
-
     // 2. 光照Pass
     CurvaturePass();
 

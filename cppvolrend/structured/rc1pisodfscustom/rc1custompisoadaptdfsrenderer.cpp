@@ -187,7 +187,7 @@ bool CustomRayCasting1PassIsodfsAdapt::Init(int swidth, int sheight)
     if (!volume) return false;
 
     // 初始化块分割
-    glm::vec3 numBlocks(4, 4, 4);
+    glm::vec3 numBlocks(32, 32, 32);
     std::vector<float> minValues;
     std::vector<float> maxValues;
     ComputeBlocksFromVolume(volume, numBlocks, minValues, maxValues, vol_voxelsize);

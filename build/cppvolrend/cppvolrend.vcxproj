@@ -346,6 +346,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   <ItemGroup>
     <ClCompile Include="..\..\cppvolrend\structured\AdvancedDeferredShading\AdvancedDeferredShading.cpp" />
     <ClCompile Include="..\..\cppvolrend\structured\DeferredShading\DeferredShading.cpp" />
+    <ClCompile Include="..\..\cppvolrend\structured\ForwardRender\FowardRendering.cpp" />
     <ClCompile Include="..\..\cppvolrend\structured\rc1pisocustom\rc1custompisoadaptrenderer.cpp" />
     <ClCompile Include="..\..\cppvolrend\structured\rc1pisodfscustom\rc1custompisoadaptdfsrenderer.cpp" />
     <ClCompile Include="E:\cpp_volume_rendering\cppvolrend\main.cpp" />

@@ -9,9 +9,10 @@ layout (binding = 1) uniform sampler2D gNormal;
 layout (rgba32f, binding = 2) uniform image2D outputLight;
 
 // 光照参数
-uniform vec3 lightPos;
-uniform vec3 viewPos;
+uniform vec3 LightSourcePosition;
+uniform vec3 CameraEye;
 uniform vec3 lightColor;
+uniform vec4 objectColor;  // 从 m_u_color 传入
 
 // 材质参数
 uniform float Ka;  // 环境光系数
@@ -39,21 +40,20 @@ void main() {
 
     
     // 计算基本光照向量
-    vec3 lightDir = normalize(lightPos - pos);
-    vec3 viewDir = normalize(viewPos - pos);
+    vec3 lightDir = normalize(LightSourcePosition - pos);
+    vec3 viewDir = normalize(CameraEye - pos);
     vec3 halfDir = normalize(lightDir + viewDir);
     
     // 计算光照分量
     float diff = max(dot(normal, lightDir), 0.0);
     float spec = pow(max(dot(normal, halfDir), 0.0), shininess);
     
-    // 计算最终颜色
-    vec3 ambient = Ka * lightColor;
-    vec3 diffuse = Kd * diff * lightColor;
+    // 修改光照计算，考虑物体颜色
+    vec3 ambient = Ka * lightColor * objectColor.rgb;
+    vec3 diffuse = Kd * diff * lightColor * objectColor.rgb;
     vec3 specular = Ks * spec * lightColor;
     
     vec3 result = ambient + diffuse + specular;
     
-    // 存储结果
-    imageStore(outputLight, pixel, vec4(result, 1.0));
+    imageStore(outputLight, pixel, vec4(result, objectColor.a));
 }

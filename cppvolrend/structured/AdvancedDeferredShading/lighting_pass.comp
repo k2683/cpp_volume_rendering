@@ -27,6 +27,7 @@ uniform bool showValleys;
 uniform float accessibilityStrength;
 uniform vec2 screenSize;
 uniform vec3 lightColor;
+uniform vec4 objectColor;  // 从 m_u_color 传入
 
 
 layout(local_size_x = 8, local_size_y = 8, local_size_z = 1) in;
@@ -56,8 +57,25 @@ float computeGaussianCurvature(vec2 texCoord) {
     float k2 = texture(gCurvatureMin, texCoord).r;
     return k1 * k2;
 }
+float adjustMetallicByGaussian(float metallic, vec2 texCoord) {
+    float K = computeGaussianCurvature(texCoord);
+    
+    // 根据高斯曲率的绝对值调整金属度
+    // 高曲率区域会显得更有金属感
+    float curvatureWeight = min(abs(K) * 10.0, 1.0);
+    return mix(metallic, metallic * 1.5, curvatureWeight);
+}
 
+// 调整粗糙度
+float adjustRoughnessByGaussian(float roughness, vec2 texCoord) {
+    float K = computeGaussianCurvature(texCoord);
+    
+    // 高曲率区域会显得更光滑
+    float curvatureWeight = min(abs(K) * 8.0, 1.0);
+    return mix(roughness, roughness * 0.7, curvatureWeight);
+}
 // 可访问性着色
+/*
 float computeAccessibility(vec2 texCoord) {
     float k1 = texture(gCurvatureMax, texCoord).r;
     float k2 = texture(gCurvatureMin, texCoord).r;
@@ -65,7 +83,21 @@ float computeAccessibility(vec2 texCoord) {
     float meanCurv = (k1 + k2) * 0.5;
     return 1.0 - accessibilityStrength * clamp(-meanCurv, 0.0, 1.0);
 }
+*/
 
+float computeAccessibility(vec2 texCoord) {
+    float k1 = texture(gCurvatureMax, texCoord).r;
+    float k2 = texture(gCurvatureMin, texCoord).r;
+    vec3 normal = normalize(texture(gNormal, texCoord).xyz);
+    vec3 viewDir = normalize(viewPos - texture(gPosition, texCoord).xyz);
+    
+    // 综合考虑曲率、视角和法线
+    float meanCurv = (k1 + k2) * 0.5;
+    float ndotv = max(dot(normal, viewDir), 0.0);
+    float access = 1.0 - accessibilityStrength * (clamp(-meanCurv * 2.0, 0.0, 1.0) + (1.0 - ndotv));
+    
+    return clamp(access, 0.0, 1.0);
+}
 // Ridge和Valley检测
 vec4 computeRidgeValley(vec2 texCoord) {
     float k1 = texture(gCurvatureMax, texCoord).r;
@@ -75,7 +107,7 @@ vec4 computeRidgeValley(vec2 texCoord) {
     // 放宽阈值
     const float DERIV_THRESHOLD = 0.1;     // 增大阈值
     const float CURVATURE_RATIO = 1.2;     // 降低比值要求
-    const float MIN_CURVATURE = 0.001;     // 降低最小曲率要求
+    const float MIN_CURVATURE = 0.5;     // 降低最小曲率要求
     
     // 计算主曲率方向上的二阶导数
     float directionalCurv = computeDirectionalCurvature(texCoord, maxCurvDir);
@@ -125,6 +157,7 @@ vec4 computeRidgeValley(vec2 texCoord) {
     
     return feature;
 }
+
 vec3 computeCurvatureFlow(vec2 texCoord) {
     // 获取主曲率方向
     vec2 flowDir = texture(gCurvatureDir, texCoord).xy;
@@ -139,85 +172,95 @@ vec3 computeCurvatureFlow(vec2 texCoord) {
     
     return vec3(mix(noise1, noise2, 0.5));
 }
-
 void main() {
     ivec2 pixel_coords = ivec2(gl_GlobalInvocationID.xy);
-    
-    // 检查是否在图像范围内
     ivec2 dims = imageSize(outputImage);
     if (pixel_coords.x >= dims.x || pixel_coords.y >= dims.y) {
         return;
     }
     
-    // 计算纹理坐标
     vec2 texCoord = vec2(pixel_coords) / vec2(dims);
     
     // 获取G-buffer数据
     vec3 pos = texture(gPosition, texCoord).xyz;
     vec3 normal = normalize(texture(gNormal, texCoord).xyz);
     
-
-/*
-    // 可视化法线调试
-    vec3 normalColor = (normal + 1.0) * 0.5;  // 将法线映射到 [0,1] 范围
-    imageStore(outputImage, pixel_coords, vec4(normalColor, 1.0));
-    return;
-*/
-    // 跳过背景像素
-//    if (length(normal) < 0.1) {
+    // 检查是否是背景像素
     if (length(texture(gNormal, texCoord).xyz) < 0.1) {
-        imageStore(outputImage, pixel_coords, vec4(1.0, 1.0, 1.0, 1.0));  // 白色背景
+        // 背景像素直接输出白色，不进行任何效果处理
+        imageStore(outputImage, pixel_coords, vec4(1.0, 1.0, 1.0, 1.0));
         return;
     }
+    
+    // 这里开始是对模型表面的处理
     // 计算基本光照向量
     vec3 lightDir = normalize(lightPos - pos);
     vec3 viewDir = normalize(viewPos - pos);
     vec3 halfDir = normalize(lightDir + viewDir);
     float shininess = 32.0;
+    
     // 计算光照分量
     float diff = max(dot(normal, lightDir), 0.0);
     float spec = pow(max(dot(normal, halfDir), 0.0), shininess);
-    float Ka=0.1;
-    float Kd=0.7;
-    float Ks=0.2;
-    // 计算最终颜色
-    vec3 ambient = Ka * lightColor;
-    vec3 diffuse = Kd * diff * lightColor;
-    vec3 specular = Ks * spec * lightColor;
-
+    float Ka = 0.1;
+    float Kd = 0.7;
+    float Ks = 0.2;
     
-    // 合并所有光照分量
+    // 计算最终颜色
+    vec3 ambient = Ka * lightColor ;
+    vec3 diffuse = Kd * diff * lightColor ;
+    vec3 specular = Ks * spec * lightColor;
+    
     vec3 baseColor = ambient + diffuse + specular;
     
-    // 2. 曲率着色
+    // 只对模型表面应用其他效果
     float meanCurv = computeMeanCurvature(texCoord);
     vec3 curvatureColor = texture(curvatureColorMap, meanCurv * 0.5 + 0.5).rgb;
-    
-    // 3. 可访问性着色
     float accessibility = computeAccessibility(texCoord);
-    
-    // 4. 脊线和谷线
     vec4 ridgeValley = computeRidgeValley(texCoord);
-    // 5. 流场可视化
     vec3 flow = computeCurvatureFlow(texCoord);
     
-    // 合并所有效果
+    // 合并效果
     vec3 finalColor = baseColor;
-    
-    // 应用可访问性
     finalColor *= accessibility;
-    
-    // 混合曲率颜色
     finalColor = mix(finalColor, curvatureColor, 0.3);
+    finalColor = mix(finalColor, ridgeValley.rgb, ridgeValley.a * 0.5);
+    finalColor = mix(finalColor, flow, 0.2);
+    /*
+
+    // 获取高斯曲率
+    float gaussianCurv = computeGaussianCurvature(texCoord);
+    // 调整材质属性
+    float adjustedMetallic = adjustMetallicByGaussian(0.5, texCoord);
+    float adjustedRoughness = adjustRoughnessByGaussian(0.5, texCoord);
+    // 调整环境光遮蔽
+    float ao = 1.0 - min(abs(gaussianCurv) * 5.0, 0.5);
+    // 高曲率区域的边缘增强
+    float edgeEnhancement = 1.0 + abs(gaussianCurv) * 10.0;
+
+    finalColor *= ao;  // 应用环境光遮蔽
+    finalColor *= edgeEnhancement;  // 增强边缘
     
-    // 添加脊线和谷线
-    finalColor = mix(finalColor, ridgeValley.rgb, ridgeValley.a*0.5);
+    // 在高曲率区域添加镜面反射高光
+    if (abs(gaussianCurv) > 0.1) {
+        vec3 specularColor = vec3(1.0);
+        float specIntensity = pow(max(dot(normal, halfDir), 0.0), 
+                                32.0 * (1.0 - adjustedRoughness));
+        finalColor += specularColor * specIntensity * adjustedMetallic;
+    }
     
-    // 添加流场效果
-    finalColor = mix(finalColor, flow, 0.3);
-    
-    // 建议尝试不同的混合比例
-    
-    // 存储结果
-    imageStore(outputImage, pixel_coords, vec4(finalColor, 1.0));
+    // 应用色调映射
+    vec3 toneColor = vec3(1.0);
+    if (gaussianCurv > 0) {
+        // 凸出区域偏暖色
+        toneColor = vec3(1.02, 1.01, 0.98);
+    } else if (gaussianCurv < 0) {
+        // 凹陷区域偏冷色
+        toneColor = vec3(0.98, 0.99, 1.02);
+    }
+    finalColor *= toneColor;
+*/
+
+
+    imageStore(outputImage, pixel_coords, vec4(finalColor, objectColor.a));
 }

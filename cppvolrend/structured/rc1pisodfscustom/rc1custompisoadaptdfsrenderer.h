@@ -32,10 +32,10 @@ public:
         std::vector<float>& minValues,
         std::vector<float>& maxValues,
         glm::vec3 vol_voxelsize);
-    void CustomRayCasting1PassIsodfsAdapt::CreateGBuffer(int width, int height);
-    void CustomRayCasting1PassIsodfsAdapt::LightingPass();
-    void CustomRayCasting1PassIsodfsAdapt::RenderQuad();
-    void CustomRayCasting1PassIsodfsAdapt::CreateGBuffers(int width, int height);
+    void CreateGBuffer(int width, int height);
+    void LightingPass();
+    void RenderQuad();
+    void CreateGBuffers(int width, int height);
     GLuint m_texBlockMin = 0;  
     GLuint m_texBlockMax = 0;  
 
